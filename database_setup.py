@@ -36,3 +36,8 @@ class Player(Base):
     fifty = Column(Integer)
     team_id = Column(Integer, ForeignKey('team.id'))
     team = relationship(Team)
+
+# configuration(end of file)
+
+engine = create_engine('sqlite:///teamplayer.db')
+Base.metadata.create_all(engine)
