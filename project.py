@@ -1,6 +1,24 @@
 from flask import Flask
 app = Flask(__name__)
 
+# Fake teams
+team = {'name': 'India','id': '1'}
+
+teams = [{'name': 'India','id': '1'},
+         {'name': 'Australia','id': '2'},
+         {'name': 'England','id': '3'}]
+
+# Fake players
+player = [{'name': "MS Dhoni",'role': "Wicketkeeper batsman",'match': "312",'runs': "9898",'high_score': "183*",'avg': "51.55",'century': "10",'fifty': "67",'wickets': "1",'bbm': "1/14",'id': "1"}]
+
+players = [
+    {'name': "MS Dhoni",'role': "Wicketkeeper batsman",'match': "312",'runs': "9898",'high_score': "183*",'avg': "51.55",'century': "10",'fifty': "67",'wickets': "1",'bbm': "1/14",'id': "1"},
+    {'name': "Virat Kohli",'role': " Top-order batsman",'match': "202",'runs': "9030",'high_score': "183",'avg': "55.74",'century': "32",'fifty': "45",'wickets': "4",'bbm': "1/15",'id': "1"},
+    {'name': "Ravichandran Ashwin",'role': "Bowling allrounder",'match': "111",'runs': "675",'high_score': "65",'avg': "16.07",'century': "0",'fifty': "1",'wickets': "150",'bbm': "4/25",'id': "1"},
+    {'name': "Shikhar Dhawan",'role': "Opening batsman",'match': "96",'runs': "4038",'high_score': "137",'avg': "44.86",'century': "12",'fifty': "23",'wickets': "0",'bbm': "0",'id': "1"},
+    {'name': "Mohammed Shami Ahmed",'role': "Bowler",'match': "50",'runs': "116",'high_score': "25",'avg': "10.54",'century': "0",'fifty': "0",'wickets': "91",'bbm': "4/35",'id': "1"},
+]
+
 
 @app.route("/")
 @app.route("/teams/")
