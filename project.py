@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import render_template
 app = Flask(__name__)
 
 # Fake teams
@@ -22,45 +23,45 @@ players = [
 
 @app.route("/")
 @app.route("/teams/")
-def show_players():
-    return "This page will show all Teams"
-
+def show_teams():
+    # return "This page will show all Teams"
+    return render_template('teams.html',teams=teams)
 
 @app.route("/team/new/")
 def new_team():
-    return "This page will create new Team"
-
+    # return "This page will create new Team"
+    return render_template('newteams.html')
 
 @app.route("/team/<int:team_id>/edit/")
 def edit_team(team_id):
-    return "This page will edit Team %s" % team_id
-
+    # return "This page will edit Team %s" % team_id
+    return render_template('editteams.html',team=team)
 
 @app.route("/team/<int:team_id>/delete/")
 def delete_team(team_id):
-    return "This page will delete Team %s" % team_id
-
+    # return "This page will delete Team %s" % team_id
+    return render_template('deleteteams',team=team)
 
 @app.route("/team/<int:team_id>/")
 @app.route("/team/<int:team_id>/players/")
 def show_players(team_id):
-    return "This page will show all players of Team %s" % team_id
-
+    # return "This page will show all players of Team %s" % team_id
+    return render_template('players.html',team=team,players=players)
 
 @app.route("/team/<int:team_id>/player/new/")
 def new_player(team_id):
-    return "This page add new player in Team %s" % team_id
-
+    # return "This page add new player in Team %s" % team_id
+    return render_template('newplayers.html',team=team)
 
 @app.route("/team/<int:team_id>/player/<int:player_id>/edit/")
 def edit_player(team_id, player_id):
-    return "This page will edit player %s of Team %s" % (player_id, team_id)
-
+    # return "This page will edit player %s of Team %s" % (player_id, team_id)
+    return render_template('editplayers.html',team=team,player=player)
 
 @app.route("/team/<int:team_id>/player/<int:player_id>/delete/")
 def delete_player(team_id, player_id):
-    return "This page will delete player %s of Team %s" % (player_id, team_id)
-
+    # return "This page will delete player %s of Team %s" % (player_id, team_id)
+    return render_template('deleteplayer.html',team=team,player=player)
 
 if __name__ == '__main__':
     app.debug = True
