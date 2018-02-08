@@ -37,6 +37,7 @@ session=DBSession()
 @app.route("/")
 @app.route("/teams/")
 def show_teams():
+    teams=session.query(Team).all()
     # return "This page will show all Teams"
     return render_template('teams.html',teams=teams)
 
