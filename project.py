@@ -2,6 +2,17 @@ from flask import Flask
 from flask import render_template
 app = Flask(__name__)
 
+from sqlalchemy import create_engine
+engine=create_engine('sqlite:///teamplayer.db')
+
+from database_setup import Base, Team, Player
+Base.metadata.bind=engine
+
+from sqlalchemy.orm import sessionmaker
+DBSession=sessionmaker(bind=engine)
+session=DBSession()
+
+
 # Fake teams
 team = {'name': 'India','id': '1'}
 
