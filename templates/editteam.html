@@ -9,10 +9,10 @@
 </head>
 <body>
 <h1>Edit Name of Team {{ team.name }}</h1>
-<form action="#">
+<form action="{{ url_for('edit_team',team_id=team.id) }}" method="post">
     <input type="text" name="name" placeholder="{{ team.name }}">
     <input type="submit" name="Update">
-    <a href="#"><button>Cancel</button></a>
+    <a href="{{ url_for('show_teams') }}"><button>Cancel</button></a>
 </form>
 </body>
 </html>

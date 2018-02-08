@@ -53,10 +53,18 @@ def new_team():
     else:
         return render_template('newteam.html')
 
-@app.route("/team/<int:team_id>/edit/")
+@app.route("/team/<int:team_id>/edit/", methods=['GET','POST'])
 def edit_team(team_id):
     # return "This page will edit Team %s" % team_id
-    return render_template('editteam.html',team=team)
+    editedTeam = session.query(Team).filter_by(id=team_id).one()
+    if request.method == 'POST':
+        if request.form['name']:
+            editedTeam.name = request.form['name']
+        session.add(editedTeam)
+        session.commit()
+        return redirect(url_for('show_teams'))
+    else:
+        return render_template('editteam.html', team=editedTeam, team_id=team_id)
 
 @app.route("/team/<int:team_id>/delete/")
 def delete_team(team_id):
