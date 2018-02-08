@@ -31,7 +31,7 @@ session.add(player1)
 session.commit()
 
 player2 = Player(name="Virat Kohli",
-                 role=" Top-order batsman",
+                 role="Top-order batsman",
                  match="202",
                  runs="9030",
                  high_score="183",
