@@ -45,10 +45,11 @@ def show_teams():
 def new_team():
     # return "This page will create new Team"
     if request.method=='POST':
-        name=request.form['name']
-        newTeam=Team(name=name)
-        session.add(newTeam)
-        session.commit()
+        if request.form['name']:
+            name=request.form['name']
+            newTeam=Team(name=name)
+            session.add(newTeam)
+            session.commit()
         return redirect(url_for('show_teams'))
     else:
         return render_template('newteam.html')
@@ -66,10 +67,16 @@ def edit_team(team_id):
     else:
         return render_template('editteam.html', team=editedTeam, team_id=team_id)
 
-@app.route("/team/<int:team_id>/delete/")
+@app.route("/team/<int:team_id>/delete/", methods=['GET','POST'])
 def delete_team(team_id):
     # return "This page will delete Team %s" % team_id
-    return render_template('deleteteam.html',team=team)
+    deletedTeam = session.query(Team).filter_by(id=team_id).one()
+    if request.method =='POST':
+        session.delete(deletedTeam)
+        session.commit()
+        return redirect(url_for('show_teams'))
+    else:
+        return render_template('deleteteam.html',team=deletedTeam)
 
 @app.route("/team/<int:team_id>/")
 @app.route("/team/<int:team_id>/players/")
