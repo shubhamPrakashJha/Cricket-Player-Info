@@ -1,10 +1,100 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit Player</title>
 </head>
 <body>
-
+<h1>Add new Player</h1>
+<form action="">
+    <label for="role">Role: <br>
+        <select name="role">
+            {% if player.role == "Batsman" %}
+                <option value="Batsman" selected>batsman</option>
+            {% else %}
+                <option value="Batsman">batsman</option>
+            {% endif %}
+            {% if player.role == "Opening batsman" %}
+                <option value="Opening batsman" selected>Opening batsman</option>
+            {% else %}
+                <option value="Opening batsman">Opening batsman</option>
+            {% endif %}
+            {% if player.role == "Top-order batsman" %}
+                <option value="Top-order batsman" selected>Top-order batsman</option>
+            {% else %}
+                <option value="Top-order batsman">Top-order batsman</option>
+            {% endif %}
+            {% if player.role == "Middle-order batsman" %}
+                <option value="Middle-order batsman" selected>Middle-order batsman</option>
+            {% else %}
+                <option value="Middle-order batsman">Middle-order batsman</option>
+            {% endif %}
+            {% if player.role == "Batting allrounder" %}
+                <option value="Batting allrounder" selected>Batting allrounder</option>
+            {% else %}
+                <option value="Batting allrounder">Batting allrounder</option>
+            {% endif %}
+            {% if player.role == "Wicketkeeper" %}
+                <option value="Wicketkeeper" selected>Wicketkeeper</option>
+            {% else %}
+                <option value="wicketkeeper">wicketkeeper</option>
+            {% endif %}
+            {% if player.role == "Wicketkeeper batsman" %}
+                <option value="Wicketkeeper batsman" selected>Wicketkeeper batsman</option>
+            {% else %}
+                <option value="Wicketkeeper batsman">Wicketkeeper batsman</option>
+            {% endif %}
+            {% if player.role == "bowler" %}
+                <option value="Bowler" selected>bowler</option>
+            {% else %}
+                <option value="Bowler">bowler</option>
+            {% endif %}
+            {% if player.role == "Bowling allrounder" %}
+                <option value="Bowling allrounder" selected>Bowling allrounder</option>
+            {% else %}
+                <option value="Bowling allrounder">Bowling allrounder</option>
+            {% endif %}
+            {% if player.role == "allrounder" %}
+                <option value="allrounder" selected>allrounder</option>
+            {% else %}
+                <option value="allrounder">allrounder</option>
+            {% endif %}
+        </select>
+    </label><br><br>
+    <label for="name">Name: <br>
+        <input type="text" name="name" placeholder="{{ player.name }}">
+    </label><br><br>
+    <label for="match">Match: <br>
+        <input type="text" name="match" placeholder="{{ player.match }}">
+    </label><br><br>
+    <label for="runs">runs: <br>
+        <input type="text" name="runs" placeholder="{{ player.runs }}">
+    </label><br><br>
+    <label for="high_score">high score: <br>
+        <input type="text" name="high_score" placeholder="{{ player.high_score }}">
+    </label><br><br>
+    <label for="avg">avg: <br>
+        <input type="text" name="avg" placeholder="{{ player.avg }}">
+    </label><br><br>
+    <label for="century">century: <br>
+        <input type="text" name="century" placeholder="{{ player.century }}">
+    </label><br><br>
+    <label for="fifty">fifty: <br>
+        <input type="text" name="fifty" placeholder="{{ player.fifty }}">
+    </label><br><br>
+    <label for="wickets">wickets: <br>
+        <input type="text" name="wickets" placeholder="{{ player.wickets }}">
+    </label><br><br>
+    <label for="bbm">bbm: <br>
+        <input type="text" name="bbm" placeholder="{{ player.bbm }}">
+    </label><br><br>
+    <input type="submit" value="create">
+    <a href="#">
+        <button>Cancel</button>
+    </a>
+</form>
 </body>
 </html>

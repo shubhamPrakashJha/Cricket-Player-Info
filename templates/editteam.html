@@ -1,10 +1,18 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit Teams</title>
 </head>
 <body>
-
+<h1>Edit Name of Team {{ team.name }}</h1>
+<form action="#">
+    <input type="text" name="name" placeholder="{{ team.name }}">
+    <input type="submit" name="Update">
+    <a href="#"><button>Cancel</button></a>
+</form>
 </body>
 </html>

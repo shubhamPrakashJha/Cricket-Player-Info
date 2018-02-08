@@ -1,10 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Players</title>
 </head>
 <body>
+<h1>{{ team.name }}</h1>
+{% if players|count == 0 %}
+    <p>Team is yet to be selected</p>
+{% endif %}
+<a href="#">Create new Player</a>
 
+
+{% for role in roles %}
+    <h2>{{ role }}</h2>
+    {% for player in players %}
+        {% if player.role == role %}
+            <p>
+                <b>{{ player.name }}</b><br>
+                <i>match={{ player.match }}</i><br>
+                <i>runs={{ player.runs }}</i><br>
+                <i>high_score={{ player.high_score }}</i><br>
+                <i>avg={{ player.avg }}</i><br>
+                <i>century={{ player.century }}</i><br>
+                <i>fifty={{ player.fifty }}</i><br>
+                <i>wickets={{ player.wickets }}</i><br>
+                <i>bbm={{ player.bbm }}</i><br>
+            </p>
+        {% endif %}
+    {% endfor %}
+{% endfor %}
 </body>
 </html>
