@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template
+from flask import render_template,request,redirect,url_for
 app = Flask(__name__)
 
 from sqlalchemy import create_engine
@@ -41,10 +41,17 @@ def show_teams():
     # return "This page will show all Teams"
     return render_template('teams.html',teams=teams)
 
-@app.route("/team/new/")
+@app.route("/team/new/", methods=['GET','POST'])
 def new_team():
     # return "This page will create new Team"
-    return render_template('newteam.html')
+    if request.method=='POST':
+        name=request.form['name']
+        newTeam=Team(name=name)
+        session.add(newTeam)
+        session.commit()
+        return redirect(url_for('show_teams'))
+    else:
+        return render_template('newteam.html')
 
 @app.route("/team/<int:team_id>/edit/")
 def edit_team(team_id):

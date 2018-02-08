@@ -9,7 +9,7 @@
 </head>
 <body>
 <h1>Cricket World Cup Teams</h1>
-<a href="#">Add new team</a>
+<a href="{{ url_for('new_team') }}">Add new team</a>
 {% for team in teams %}
     <p><a href="#">{{ team.name }}</a></p>
     <a href="#">edit</a>
