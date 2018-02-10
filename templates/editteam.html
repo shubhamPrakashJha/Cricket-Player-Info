@@ -9,11 +9,17 @@
     <title>Edit Teams</title>
 </head>
 <body>
-<h1>Edit Name of Team {{ team.name }}</h1>
-<form action="{{ url_for('edit_team',team_id=team.id) }}" method="post">
-    <input type="text" name="name" placeholder="{{ team.name }}">
-    <input type="submit" name="Update">
-    <a href="{{ url_for('show_teams') }}"><button>Cancel</button></a>
-</form>
+<div class="pane"><h1>Edit Name of Team {{ team.name }}</h1>
+    <div class="teamminipane">
+        <form action="{{ url_for('edit_team',team_id=team.id) }}" method="post">
+            <label for="name">Name: <br><br>
+                <input type="text" name="name" placeholder="{{ team.name }}" size="30px"></label>
+            <label for="image_url">Image Url: <br><br>
+                <input type="text" name="image_url" placeholder="{{ team.image_url }}" size="30px">
+            </label><br><br>
+            <input type="submit" name="Update">
+            <a href="{{ url_for('show_teams') }}">Cancel</a>
+    </div>
+    </form></div>
 </body>
 </html>

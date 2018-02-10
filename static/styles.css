@@ -11,7 +11,7 @@ body {
 }
 
 h1, h2, h4 {
-    color: #fff9d6;
+    color: #fffffb;
 }
 
 h1, h2 {
@@ -116,9 +116,31 @@ a {
     /* margin: auto; */
     margin-right: 20px;
     margin-top: 20px;
+    margin-bottom: 20px;
     border-color: #fad5cd;
-    /* width: 150px; */
-    max-width: 300px;
+    width: 200px;
+    height: 495px;
+    /* max-width: 309px; */
+    /* min-height: 100%; */
+    box-shadow: -4px 6px 20px 0px black;
+}
+.teamminipane {
+    /* float: left; */
+    background-color: #feeac7c2;
+    position: initial;
+    /* display: flex; */
+    /* padding-left: initial; */
+    /* left: 30%; */
+    /* border: 2px solid; */
+    border-radius: 25px;
+    padding: 20px;
+    /* margin: auto; */
+    margin-right: 20px;
+    margin-top: 20px;
+    border-color: #fad5cd;
+    width: 250px;
+    height: 250px;
+    /* max-width: 309px; */
     /* min-height: 100%; */
     box-shadow: -4px 6px 20px 0px black;
 }
@@ -182,7 +204,7 @@ form {
 }
 
 .flexcontainer > * {
-    flex-grow: 1;
+    /* flex-grow: 1; */
 }
 
 div.flexcontainer{

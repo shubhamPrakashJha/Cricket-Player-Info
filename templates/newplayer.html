@@ -9,53 +9,58 @@
     <title>New Players</title>
 </head>
 <body>
-<h1>Add new Player</h1>
-<form action="{{ url_for('new_player', team_id=team.id) }}" method="post">
-    <label for="role">Role: <br>
-        <select name="role">
-            <option value="Batsman">batsman</option>
-            <option value="Opening batsman">Opening batsman</option>
-            <option value="Top-order batsman">Top-order batsman</option>
-            <option value="Middle-order batsman">Middle-order batsman</option>
-            <option value="Batting allrounder">Batting allrounder</option>
-            <option value="Wicketkeeper">wicketkeeper</option>
-            <option value="Wicketkeeper batsman">Wicketkeeper batsman</option>
-            <option value="Bowler">bowler</option>
-            <option value="Bowling allrounder">Bowling allrounder</option>
-            <option value="Allrounder">allrounder</option>
-        </select>
-    </label><br><br>
-    <label for="name">Name: <br>
-        <input type="text" name="name">
-    </label><br><br>
-    <label for="match">Match: <br>
-        <input type="text" name="match">
-    </label><br><br>
-    <label for="runs">runs: <br>
-        <input type="text" name="runs">
-    </label><br><br>
-    <label for="high_score">high score: <br>
-        <input type="text" name="high_score">
-    </label><br><br>
-    <label for="avg">avg: <br>
-        <input type="text" name="avg">
-    </label><br><br>
-    <label for="century">century: <br>
-        <input type="text" name="century">
-    </label><br><br>
-    <label for="fifty">fifty: <br>
-        <input type="text" name="fifty">
-    </label><br><br>
-    <label for="wickets">wickets: <br>
-        <input type="text" name="wickets">
-    </label><br><br>
-    <label for="bbm">bbm: <br>
-        <input type="text" name="bbm">
-    </label><br><br>
-    <input type="submit" value="create">
-    <a href="{{ url_for('show_players', team_id=team.id) }}">
-        <button>Cancel</button>
-    </a>
-</form>
+<div class="pane">
+    <h1>Add new Player</h1>
+    <form action="{{ url_for('new_player', team_id=team.id) }}" method="post">
+        <div class="minipane">
+            <label for="role">Role: <br>
+                <select name="role" size="1px" autofocus>
+                    <option value="Batsman">batsman</option>
+                    <option value="Opening batsman">Opening batsman</option>
+                    <option value="Top-order batsman">Top-order batsman</option>
+                    <option value="Middle-order batsman">Middle-order batsman</option>
+                    <option value="Batting allrounder">Batting allrounder</option>
+                    <option value="Wicketkeeper">wicketkeeper</option>
+                    <option value="Wicketkeeper batsman">Wicketkeeper batsman</option>
+                    <option value="Bowler">bowler</option>
+                    <option value="Bowling allrounder">Bowling allrounder</option>
+                    <option value="Allrounder">allrounder</option>
+                </select>
+            </label><br>
+            <label for="name">Name: <br>
+                <input type="text" name="name" size="24px">
+            </label><br>
+            <label for="match">Match: <br>
+                <input type="text" name="match" size="24px">
+            </label><br>
+            <label for="runs">runs: <br>
+                <input type="text" name="runs" size="24px">
+            </label><br>
+            <label for="high_score">high score: <br>
+                <input type="text" name="high_score" size="24px">
+            </label><br>
+            <label for="avg">avg: <br>
+                <input type="text" name="avg" size="24px">
+            </label><br>
+            <label for="century">century: <br>
+                <input type="text" name="century" size="24px">
+            </label><br>
+            <label for="fifty">fifty: <br>
+                <input type="text" name="fifty" size="24px">
+            </label><br>
+            <label for="wickets">wickets: <br>
+                <input type="text" name="wickets" size="24px">
+            </label><br>
+            <label for="bbm">bbm: <br>
+                <input type="text" name="bbm" size="24px">
+            </label><br>
+            <label for="image_url">Image Url: <br>
+                <input type="text" name="image_url" size="24px">
+            </label><br><br>
+            <input type="submit" value="create">
+            <a href="{{ url_for('show_players', team_id=team.id) }}">Cancel</a>
+        </div>
+    </form>
+</div>
 </body>
 </html>

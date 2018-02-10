@@ -66,7 +66,8 @@ def new_team():
     if request.method=='POST':
         if request.form['name']:
             name=request.form['name']
-            newTeam=Team(name=name)
+            image_url=request.form['image_url']
+            newTeam=Team(name=name, image_url=image_url)
             session.add(newTeam)
             session.commit()
         return redirect(url_for('show_teams'))
@@ -80,6 +81,7 @@ def edit_team(team_id):
     if request.method == 'POST':
         if request.form['name']:
             editedTeam.name = request.form['name']
+            editedTeam.image_url = request.form['image_url']
         session.add(editedTeam)
         session.commit()
         return redirect(url_for('show_teams'))
@@ -123,6 +125,7 @@ def new_player(team_id):
                              fifty=request.form['fifty'],
                              wickets=request.form['wickets'],
                              bbm = request.form['bbm'],
+                             image_url=request.form['image_url'],
                              team=team
                              )
             session.add(newPlayer)
@@ -157,6 +160,8 @@ def edit_player(team_id, player_id):
             editedPlayer.wickets= request.form['wickets']
         if request.form['bbm']:
             editedPlayer.bbm= request.form['bbm']
+        if request.form['image_url']:
+            editedPlayer.bbm= request.form['image_url']
         session.add(editedPlayer)
         session.commit()
         return redirect(url_for('show_players', team_id=team_id, player_id=player_id))

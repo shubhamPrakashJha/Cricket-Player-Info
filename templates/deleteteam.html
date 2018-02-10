@@ -9,10 +9,14 @@
     <title>Delete Teams</title>
 </head>
 <body>
-<h1>Are you Sure you want to delete Team {{ team.name }}?</h1>
-<form action="{{ url_for('delete_team', team_id=team.id) }}" method="post">
-    <input type="Submit" value="Delete">
-    <a href="{{ url_for('show_teams') }}"><button>Cancel</button></a>
-</form>
+<div class="pane">
+    <h1>Are you Sure you want to delete Team {{ team.name }}?</h1>
+    <div class="teamminipane">
+        <form action="{{ url_for('delete_team', team_id=team.id) }}" method="post">
+            <input type="Submit" value="Delete">
+            <a href="{{ url_for('show_teams') }}">Cancel</a>
+        </form>
+    </div>
+</div>
 </body>
 </html>

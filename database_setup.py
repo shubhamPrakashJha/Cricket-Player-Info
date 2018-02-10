@@ -17,6 +17,7 @@ class Team(Base):
 
     # Mapper
     name = Column(String(250), nullable=False)
+    image_url = Column(String(500))
     id = Column(Integer, primary_key=True)
 
     @property
@@ -24,6 +25,7 @@ class Team(Base):
         return {
             'name': self.name,
             'id': self.id,
+            'image_url': self.image_url
         }
 
 
@@ -43,6 +45,7 @@ class Player(Base):
     fifty = Column(String(30))
     wickets = Column(String(30))
     bbm = Column(String(30))
+    image_url = Column(String(500))
     team_id = Column(Integer, ForeignKey('team.id'))
     team = relationship(Team)
 
@@ -60,6 +63,7 @@ class Player(Base):
             'fifty': self.fifty,
             'wickets': self.wickets,
             'bbm': self.bbm,
+            'image_url':self.image_url
         }
 
 
