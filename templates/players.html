@@ -30,7 +30,7 @@
                 <i>wickets={{ player.wickets }}</i><br>
                 <i>bbm={{ player.bbm }}</i><br>
                 <a href="{{ url_for('edit_player', team_id=team.id, player_id=player.id) }}">edit</a>
-                <a href="#">delete</a>
+                <a href="{{ url_for('delete_player', team_id=team.id, player_id=player.id) }}">delete</a>
             </p>
         {% endif %}
     {% endfor %}

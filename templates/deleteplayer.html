@@ -9,9 +9,9 @@
 </head>
 <body>
 <h1>Are you Sure you want to Delete {{ player.name }} profile?</h1>
-<form action="#">
+<form action="{{ url_for('delete_player', team_id=team.id, player_id=player.id) }}" method="post">
     <input type="submit" value="Delete">
-    <a href="#"><button>Cancel</button></a>
+    <a href="{{ url_for('show_players', team_id=team.id) }}"><button>Cancel</button></a>
 </form>
 </body>
 </html>

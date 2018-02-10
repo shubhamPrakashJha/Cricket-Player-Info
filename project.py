@@ -144,10 +144,17 @@ def edit_player(team_id, player_id):
     else:
         return render_template('editplayer.html',team=team,player=editedPlayer)
 
-@app.route("/team/<int:team_id>/player/<int:player_id>/delete/")
+@app.route("/team/<int:team_id>/player/<int:player_id>/delete/", methods=['POST','GET'])
 def delete_player(team_id, player_id):
     # return "This page will delete player %s of Team %s" % (player_id, team_id)
-    return render_template('deleteplayer.html',team=team,player=player)
+    team=session.query(Team).filter_by(id=team_id).one()
+    deletedPlayer=session.query(Player).filter_by(id=player_id).one()
+    if request.method=='POST':
+        session.delete(deletedPlayer)
+        session.commit()
+        return redirect(url_for('show_players', team_id=team_id))
+    else:
+        return render_template('deleteplayer.html',team=team,player=deletedPlayer)
 
 if __name__ == '__main__':
     app.debug = True
