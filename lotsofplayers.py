@@ -25,7 +25,8 @@ player1 = Player(name="MS Dhoni",
                  century="10",
                  fifty="67",
                  wickets="1",
-                 bbm = "1/14",
+                 bbm="1/14",
+                 image_url="http://www.espncricinfo.com/inline/content/image/1099927.html?alt=20",
                  team=team1)
 session.add(player1)
 session.commit()
@@ -39,7 +40,8 @@ player2 = Player(name="Virat Kohli",
                  century="32",
                  fifty="45",
                  wickets="4",
-                 bbm = "1/15",
+                 bbm="1/15",
+                 image_url="http://www.espncricinfo.com/inline/content/image/1099912.html?alt=20",
                  team=team1)
 session.add(player2)
 session.commit()
@@ -53,7 +55,8 @@ player3 = Player(name="Ravichandran Ashwin",
                  century="0",
                  fifty="1",
                  wickets="150",
-                 bbm = "4/25",
+                 bbm="4/25",
+                 image_url="http://www.espncricinfo.com/inline/content/image/1099922.html?alt=17",
                  team=team1)
 session.add(player3)
 session.commit()
@@ -68,6 +71,7 @@ player5 = Player(name="Shikhar Dhawan",
                  fifty="23",
                  wickets="0",
                  bbm="0",
+                 image_url="http://www.espncricinfo.com/inline/content/image/1099915.html?alt=20",
                  team=team1)
 session.add(player5)
 session.commit()
@@ -82,6 +86,7 @@ player6 = Player(name="Mohammed Shami Ahmed",
                  fifty="0",
                  wickets="91",
                  bbm="4/35",
+                 image_url="http://www.espncricinfo.com/inline/content/image/1099933.html?alt=1",
                  team=team1)
 session.add(player6)
 session.commit()
@@ -100,7 +105,8 @@ player1 = Player(name="MJ Clarke",
                  century="8",
                  fifty="58",
                  wickets="57",
-                 bbm = "5/35",
+                 bbm="5/35",
+                 image_url="http://www.espncricinfo.com/inline/content/image/817097.html?alt=1",
                  team=team2)
 session.add(player1)
 session.commit()
@@ -114,7 +120,7 @@ player2 = Player(name="GJ Bailey",
                  century="3",
                  fifty="22",
                  wickets="0",
-                 bbm = "0",
+                 bbm="0", image_url="http://www.espncricinfo.com/inline/content/image/817087.html?alt=1",
                  team=team2)
 session.add(player2)
 session.commit()
@@ -128,7 +134,7 @@ player3 = Player(name="PJ Cummins",
                  century="0",
                  fifty="0",
                  wickets="64",
-                 bbm = "4/24",
+                 bbm="4/24", image_url="http://www.espncricinfo.com/inline/content/image/1099509.html?alt=1",
                  team=team2)
 session.add(player3)
 session.commit()
@@ -142,7 +148,7 @@ player4 = Player(name="JP Faulkner",
                  century="1",
                  fifty="4",
                  wickets="96",
-                 bbm = "4/32",
+                 bbm="4/32", image_url="http://www.espncricinfo.com/inline/content/image/1030005.html",
                  team=team2)
 session.add(player4)
 session.commit()
@@ -156,7 +162,7 @@ player5 = Player(name="AJ Finch",
                  century="1",
                  fifty="7",
                  wickets="0",
-                 bbm = "0",
+                 bbm="0", image_url="http://www.espncricinfo.com/inline/content/image/1099503.html?alt=1",
                  team=team2)
 session.add(player5)
 session.commit()
@@ -175,7 +181,7 @@ player1 = Player(name="MM Ali",
                  century="3",
                  fifty="5",
                  wickets="54",
-                 bbm = "3/32",
+                 bbm="3/32", image_url="http://www.espncricinfo.com/inline/content/image/751925.html?alt=1",
                  team=team3)
 session.add(player1)
 session.commit()
@@ -189,7 +195,7 @@ player2 = Player(name="JM Anderson",
                  century="0",
                  fifty="0",
                  wickets="269",
-                 bbm = "5/23",
+                 bbm="5/23", image_url="http://www.espncricinfo.com/inline/content/image/1015875.html",
                  team=team3)
 session.add(player2)
 session.commit()
@@ -203,7 +209,7 @@ player3 = Player(name="JM Bairstow",
                  century="2",
                  fifty="6",
                  wickets="0",
-                 bbm = "0",
+                 bbm="0", image_url="http://www.espncricinfo.com/inline/content/image/1015877.html",
                  team=team3)
 session.add(player3)
 session.commit()
@@ -217,7 +223,7 @@ player4 = Player(name="GS Ballance",
                  century="0",
                  fifty="2",
                  wickets="0",
-                 bbm = "0",
+                 bbm="0", image_url="http://www.espncricinfo.com/inline/content/image/818163.html?alt=1",
                  team=team3)
 session.add(player4)
 session.commit()
@@ -231,7 +237,7 @@ player5 = Player(name="IR Bell",
                  century="4",
                  fifty="35",
                  wickets="6",
-                 bbm = "3/9",
+                 bbm="3/9", image_url="http://www.espncricinfo.com/inline/content/image/565721.html?alt=1",
                  team=team3)
 session.add(player5)
 session.commit()
@@ -385,4 +391,3 @@ session.commit()
 #                  team=team5)
 # session.add(player5)
 # session.commit()
-
