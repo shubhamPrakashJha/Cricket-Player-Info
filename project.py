@@ -88,10 +88,29 @@ def show_players(team_id):
     roles=set(roles_array)
     return render_template('players.html',team=team,players=players,roles=roles)
 
-@app.route("/team/<int:team_id>/player/new/")
+@app.route("/team/<int:team_id>/player/new/", methods=['POST','GET'])
 def new_player(team_id):
     # return "This page add new player in Team %s" % team_id
-    return render_template('newplayer.html',team=team)
+    team=session.query(Team).filter_by(id=team_id).one()
+    if request.method=='POST':
+        if request.form['name']:
+            newPlayer=Player(name=request.form['name'],
+                             role=request.form['role'],
+                             match=request.form['match'],
+                             runs=request.form['runs'],
+                             high_score=request.form['high_score'],
+                             avg=request.form['avg'],
+                             century=request.form['century'],
+                             fifty=request.form['fifty'],
+                             wickets=request.form['wickets'],
+                             bbm = request.form['bbm'],
+                             team=team
+                             )
+            session.add(newPlayer)
+            session.commit()
+        return redirect(url_for('show_players', team_id=team_id))
+    else:
+        return render_template('newplayer.html',team=team)
 
 @app.route("/team/<int:team_id>/player/<int:player_id>/edit/")
 def edit_player(team_id, player_id):
