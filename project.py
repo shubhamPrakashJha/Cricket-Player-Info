@@ -112,10 +112,37 @@ def new_player(team_id):
     else:
         return render_template('newplayer.html',team=team)
 
-@app.route("/team/<int:team_id>/player/<int:player_id>/edit/")
+@app.route("/team/<int:team_id>/player/<int:player_id>/edit/", methods=['POST','GET'])
 def edit_player(team_id, player_id):
     # return "This page will edit player %s of Team %s" % (player_id, team_id)
-    return render_template('editplayer.html',team=team,player=player)
+    team=session.query(Team).filter_by(id=team_id).one()
+    editedPlayer=session.query(Player).filter_by(id=player_id).one()
+    if request.method=='POST':
+        if request.form['name']:
+            editedPlayer.name=request.form['name']
+        if request.form['role']:
+            editedPlayer.role=request.form['role']
+        if request.form['match']:
+            editedPlayer.match= request.form['match']
+        if request.form['runs']:
+            editedPlayer.runs= request.form['runs']
+        if request.form['high_score']:
+            editedPlayer.high_score= request.form['high_score']
+        if request.form['avg']:
+            editedPlayer.avg= request.form['avg']
+        if request.form['century']:
+            editedPlayer.century= request.form['century']
+        if request.form['fifty']:
+            editedPlayer.fifty= request.form['fifty']
+        if request.form['wickets']:
+            editedPlayer.wickets= request.form['wickets']
+        if request.form['bbm']:
+            editedPlayer.bbm= request.form['bbm']
+        session.add(editedPlayer)
+        session.commit()
+        return redirect(url_for('show_players', team_id=team_id, player_id=player_id))
+    else:
+        return render_template('editplayer.html',team=team,player=editedPlayer)
 
 @app.route("/team/<int:team_id>/player/<int:player_id>/delete/")
 def delete_player(team_id, player_id):

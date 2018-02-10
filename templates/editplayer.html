@@ -8,8 +8,8 @@
     <title>Edit Player</title>
 </head>
 <body>
-<h1>Add new Player</h1>
-<form action="">
+<h1>Edit Player</h1>
+<form action="{{ url_for('edit_player', team_id=team.id, player_id=player.id) }}" method="post">
     <label for="role">Role: <br>
         <select name="role">
             {% if player.role == "Batsman" %}
@@ -92,7 +92,7 @@
         <input type="text" name="bbm" placeholder="{{ player.bbm }}">
     </label><br><br>
     <input type="submit" value="create">
-    <a href="#">
+    <a href="{{ url_for('show_players', team_id=team.id) }}">
         <button>Cancel</button>
     </a>
 </form>
