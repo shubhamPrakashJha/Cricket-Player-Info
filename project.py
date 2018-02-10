@@ -82,6 +82,10 @@ def delete_team(team_id):
 @app.route("/team/<int:team_id>/players/")
 def show_players(team_id):
     # return "This page will show all players of Team %s" % team_id
+    team=session.query(Team).filter_by(id=team_id).one()
+    players=session.query(Player).filter_by(team_id=team.id).all()
+    roles_array=[player.role for player in players]
+    roles=set(roles_array)
     return render_template('players.html',team=team,players=players,roles=roles)
 
 @app.route("/team/<int:team_id>/player/new/")

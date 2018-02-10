@@ -8,11 +8,11 @@
     <title>Players</title>
 </head>
 <body>
-<h1>{{ team.name }}</h1>
+<a href="{{ url_for('show_teams') }}"><h1>{{ team.name }}</h1></a>
 {% if players|count == 0 %}
     <p>Team is yet to be selected</p>
 {% endif %}
-<a href="#">Create new Player</a>
+<a href="{{ url_for('new_player', team_id=team.id) }}">Create new Player</a>
 
 
 {% for role in roles %}
@@ -29,6 +29,8 @@
                 <i>fifty={{ player.fifty }}</i><br>
                 <i>wickets={{ player.wickets }}</i><br>
                 <i>bbm={{ player.bbm }}</i><br>
+                <a href="#">edit</a>
+                <a href="#">delete</a>
             </p>
         {% endif %}
     {% endfor %}
