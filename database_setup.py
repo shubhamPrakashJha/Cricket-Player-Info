@@ -19,6 +19,13 @@ class Team(Base):
     name = Column(String(250), nullable=False)
     id = Column(Integer, primary_key=True)
 
+    @property
+    def serialize(self):
+        return {
+            'name': self.name,
+            'id': self.id,
+        }
+
 
 class Player(Base):
     # Table info
@@ -38,6 +45,23 @@ class Player(Base):
     bbm = Column(String(30))
     team_id = Column(Integer, ForeignKey('team.id'))
     team = relationship(Team)
+
+    @property
+    def serialize(self):
+        return {
+            'name': self.name,
+            'id': self.id,
+            'role': self.role,
+            'match': self.match,
+            'runs': self.runs,
+            'high_score': self.high_score,
+            'avg': self.avg,
+            'century': self.century,
+            'fifty': self.fifty,
+            'wickets': self.wickets,
+            'bbm': self.bbm,
+        }
+
 
 # configuration(end of file)
 

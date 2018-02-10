@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import render_template,request,redirect,url_for
+from flask import jsonify
 app = Flask(__name__)
 
 from sqlalchemy import create_engine
@@ -33,6 +34,24 @@ session=DBSession()
 # player = {'name': "MS Dhoni",'role': "Wicketkeeper batsman",'match': "312",'runs': "9898",'high_score': "183*",'avg': "51.55",'century': "10",'fifty': "67",'wickets': "1",'bbm': "1/14",'id': "1"}
 #
 # roles = [p['role'] for p in players]
+
+@app.route('/teams/JSON')
+def teams_json():
+    teams=session.query(Team).all()
+    return jsonify(Team=[team.serialize for team in teams])
+
+@app.route('/team/<int:team_id>/players/JSON')
+def team_players_json(team_id):
+    team=session.query(Team).filter_by(id=team_id).one()
+    players=session.query(Player).filter_by(team_id=team.id).all()
+    return jsonify(Players=[player.serialize for player in players])
+
+@app.route('/team/<int:team_id>/player/<int:player_id>/JSON')
+def player_info_json(team_id,player_id):
+    team=session.query(Team).filter_by(id=team_id).one()
+    player=session.query(Player).filter_by(id=player_id)
+    return jsonify(Player=[p.serialize for p in player])
+
 
 @app.route("/")
 @app.route("/teams/")
