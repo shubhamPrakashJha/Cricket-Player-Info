@@ -9,7 +9,7 @@
 </head>
 <body>
 <h1>Add new Player</h1>
-<form action="">
+<form action="{{ url_for('new_player', team_id=team.id) }}" method="post">
     <label for="role">Role: <br>
         <select name="role">
             <option value="Batsman">batsman</option>
@@ -52,7 +52,7 @@
         <input type="text" name="bbm">
     </label><br><br>
     <input type="submit" value="create">
-    <a href="#">
+    <a href="{{ url_for('show_players', team_id=team.id) }}">
         <button>Cancel</button>
     </a>
 </form>
