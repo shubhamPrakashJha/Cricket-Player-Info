@@ -14,7 +14,7 @@
     <div class="header">
         <h1>Cricket World Cup Teams</h1>
     </div>
-    <a href="{{ url_for('new_team') }}">Add new team</a><br><br>
+    {#    <a href="{{ url_for('new_team') }}">Add new team</a><br><br>#}
     <div class="flexcontainer">{% for team in teams %}
         <div class="teamminipane">
             <a href="{{ url_for('show_players', team_id=team.id) }}"><h2>{{ team.name }}</h2></a>
@@ -26,10 +26,11 @@
         </div>
     {% endfor %}
         <div class="teamminipane">
-            <a href="{{ url_for('new_team') }}">
+            <h2>Add New Team</h2>
+            <div><a href="{{ url_for('new_team') }}">
                 <img src="http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/3d-transparent-glass-icons-signs/089098-3d-transparent-glass-icon-signs-first-aid.png"
-                     alt="add new" style="height: auto;">
-            </a>
+                     alt="add new Team">
+            </a></div>
         </div>
     </div>
     <br><br>

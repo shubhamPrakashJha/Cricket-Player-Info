@@ -16,7 +16,7 @@
     {% if players|count == 0 %}
         <p>Team is yet to be selected</p>
     {% endif %}
-    <a href="{{ url_for('new_player', team_id=team.id) }}">Create new Player</a>
+    {#    <a href="{{ url_for('new_player', team_id=team.id) }}">Create new Player</a>#}
     <div class="flexcontainer">
         {% for role in roles %}
             <div>
@@ -49,11 +49,14 @@
                 </div>
             </div>
         {% endfor %}
-        <div class="minipane">
-            <a href="{{ url_for('new_player', team_id=team.id) }}">
-                <img src="http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/3d-transparent-glass-icons-signs/089098-3d-transparent-glass-icon-signs-first-aid.png"
-                     alt="add new" style="height: auto;">
-            </a>
+        <div>
+            <h2>Add New Player</h2>
+            <div class="minipane">
+                <a href="{{ url_for('new_player', team_id=team.id) }}">
+                    <img src="http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/3d-transparent-glass-icons-signs/089098-3d-transparent-glass-icon-signs-first-aid.png"
+                         alt="add new" style="margin-top: 150px;">
+                </a>
+            </div>
         </div>
     </div>
 </div>
