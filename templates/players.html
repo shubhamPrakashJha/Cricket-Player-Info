@@ -12,6 +12,15 @@
 <div class="pane">
     <div class="header">
         <a href="{{ url_for('show_teams') }}"><h1>{{ team.name }}</h1></a>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class=flash>
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
     </div>
     {% if players|count == 0 %}
         <p>Team is yet to be selected</p>

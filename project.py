@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import render_template,request,redirect,url_for
 from flask import jsonify
+from flask import flash
 app = Flask(__name__)
 
 from sqlalchemy import create_engine
@@ -70,6 +71,7 @@ def new_team():
             newTeam=Team(name=name, image_url=image_url)
             session.add(newTeam)
             session.commit()
+            flash('New Team Added')
         return redirect(url_for('show_teams'))
     else:
         return render_template('newteam.html')
@@ -84,6 +86,7 @@ def edit_team(team_id):
             editedTeam.image_url = request.form['image_url']
         session.add(editedTeam)
         session.commit()
+        flash('Team Name Successfully Edited')
         return redirect(url_for('show_teams'))
     else:
         return render_template('editteam.html', team=editedTeam, team_id=team_id)
@@ -95,6 +98,7 @@ def delete_team(team_id):
     if request.method =='POST':
         session.delete(deletedTeam)
         session.commit()
+        flash('Team Successfully Deleted')
         return redirect(url_for('show_teams'))
     else:
         return render_template('deleteteam.html',team=deletedTeam)
@@ -130,6 +134,7 @@ def new_player(team_id):
                              )
             session.add(newPlayer)
             session.commit()
+            flash('New Player Added in Team')
         return redirect(url_for('show_players', team_id=team_id))
     else:
         return render_template('newplayer.html',team=team)
@@ -164,6 +169,7 @@ def edit_player(team_id, player_id):
             editedPlayer.bbm= request.form['image_url']
         session.add(editedPlayer)
         session.commit()
+        flash('Player Information Successfully Edited')
         return redirect(url_for('show_players', team_id=team_id, player_id=player_id))
     else:
         return render_template('editplayer.html',team=team,player=editedPlayer)
@@ -176,10 +182,12 @@ def delete_player(team_id, player_id):
     if request.method=='POST':
         session.delete(deletedPlayer)
         session.commit()
+        flash('Player Successfully Deleted')
         return redirect(url_for('show_players', team_id=team_id))
     else:
         return render_template('deleteplayer.html',team=team,player=deletedPlayer)
 
 if __name__ == '__main__':
+    app.secret_key='some_secret'
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
