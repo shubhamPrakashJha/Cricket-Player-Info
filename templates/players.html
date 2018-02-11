@@ -20,34 +20,41 @@
     <div class="flexcontainer">
         {% for role in roles %}
             <div>
-            <h2>{{ role }}</h2>
-            <div class="flexcontainer">
-                {% for player in players %}
-                    {% if player.role == role %}
-                        <div class="minipane">
-                            <b class="name">{{ player.name }}</b><br>
-                            <div class="editdeletepane">
-                                <a href="{{ url_for('edit_player', team_id=team.id, player_id=player.id) }}">edit</a>
-                                <a href="{{ url_for('delete_player', team_id=team.id, player_id=player.id) }}">delete</a>
-                            </div>
-                            <br>
-                            <div class="description">
-                                <img src="{{ player.image_url }}"> <br>
-                                <i>Match:{{ player.match }}</i><br>
-                                <i>Runs: {{ player.runs }}</i><br>
-                                <i>High Score: {{ player.high_score }}</i><br>
-                                <i>Avg: {{ player.avg }}</i><br>
-                                <i>Century: {{ player.century }}</i><br>
-                                <i>Fifty: {{ player.fifty }}</i><br>
-                                <i>Wickets: {{ player.wickets }}</i><br>
-                                <i>Bbm: {{ player.bbm }}</i><br>
+                <h2>{{ role }}</h2>
+                <div class="flexcontainer">
+                    {% for player in players %}
+                        {% if player.role == role %}
+                            <div class="minipane">
+                                <b class="name">{{ player.name }}</b><br>
+                                <div class="editdeletepane">
+                                    <a href="{{ url_for('edit_player', team_id=team.id, player_id=player.id) }}">edit</a>
+                                    <a href="{{ url_for('delete_player', team_id=team.id, player_id=player.id) }}">delete</a>
+                                </div>
+                                <br>
+                                <div class="description">
+                                    <img src="{{ player.image_url }}"> <br>
+                                    <i>Match:{{ player.match }}</i><br>
+                                    <i>Runs: {{ player.runs }}</i><br>
+                                    <i>High Score: {{ player.high_score }}</i><br>
+                                    <i>Avg: {{ player.avg }}</i><br>
+                                    <i>Century: {{ player.century }}</i><br>
+                                    <i>Fifty: {{ player.fifty }}</i><br>
+                                    <i>Wickets: {{ player.wickets }}</i><br>
+                                    <i>Bbm: {{ player.bbm }}</i><br>
 
+                                </div>
                             </div>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            </div></div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
         {% endfor %}
+        <div class="minipane">
+            <a href="{{ url_for('new_player', team_id=team.id) }}">
+                <img src="http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/3d-transparent-glass-icons-signs/089098-3d-transparent-glass-icon-signs-first-aid.png"
+                     alt="add new" style="height: auto;">
+            </a>
+        </div>
     </div>
 </div>
 </body>

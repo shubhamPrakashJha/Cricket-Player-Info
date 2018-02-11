@@ -165,7 +165,9 @@ a {
 }
 
 img {
+    height: 190px;
     width: 100%;
+    /* border: black 1px; */
 }
 
 .price {

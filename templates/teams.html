@@ -21,10 +21,18 @@
             <div class="editdeletepane">
                 <a href="{{ url_for('edit_team', team_id=team.id) }}">edit</a>
                 <a href="{{ url_for('delete_team', team_id=team.id) }}">delete</a><br><br>
-                <img src="{{ team.image_url }}" alt="">
+                <a href="{{ url_for('show_players', team_id=team.id) }}"><img src="{{ team.image_url }}"></a>
             </div>
         </div>
-    {% endfor %}</div>
+    {% endfor %}
+        <div class="teamminipane">
+            <a href="{{ url_for('new_team') }}">
+                <img src="http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/3d-transparent-glass-icons-signs/089098-3d-transparent-glass-icon-signs-first-aid.png"
+                     alt="add new" style="height: auto;">
+            </a>
+        </div>
+    </div>
+    <br><br>
 </div>
 </body>
 </html>
