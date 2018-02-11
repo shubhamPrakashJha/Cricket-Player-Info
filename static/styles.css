@@ -35,7 +35,7 @@ h3 {
 }
 
 p {
-    color: #eca7a2;
+    color: #fffffb;
     margin-bottom: 2px;
 }
 
@@ -43,6 +43,10 @@ a {
     text-decoration: none;
     color: #786135;
     /* font-size: .75em; */
+}
+
+hr {
+    border: 1.5px white solid;
 }
 
 .pane {
@@ -59,7 +63,7 @@ a {
     border-color: #fad5cd;
     width: 70%;
     /* min-width: 40%; */
-    min-height: 90%;
+    /* min-height: 90%; */
     box-shadow: -12px 20px 20px 0px black;
 }
 

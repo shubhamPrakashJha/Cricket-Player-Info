@@ -11,12 +11,13 @@
 <body>
 <div class="pane">
     <div class="header">
-        <a href="{{ url_for('show_teams') }}"><h1>{{ team.name }}</h1></a><br>
+        <a href="{{ url_for('show_teams') }}"><h1>{{ team.name }}</h1></a>
     </div>
     {% if players|count == 0 %}
         <p>Team is yet to be selected</p>
     {% endif %}
     {#    <a href="{{ url_for('new_player', team_id=team.id) }}">Create new Player</a>#}
+    <br>
     <div class="flexcontainer">
         {% for role in roles %}
             <div>
@@ -59,6 +60,10 @@
             </div>
         </div>
     </div>
+    <footer>
+        <hr>
+        <p align="center">Click on Team Name to go back</p>
+    </footer>
 </div>
 </body>
 </html>
