@@ -22,6 +22,13 @@ session = DBSession()
 from flask import session as login_session
 import random, string
 
+# Step 5.1 GConnect
+from oauth2client.client import flow_from_clientsecrets
+from oauth2client.client import FlowExchangeError
+import httplib2
+import json
+from flask import make_response
+import requests
 
 # Fake teams
 # team = {'name': 'India','id': '1'}
