@@ -113,13 +113,17 @@ def gconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
-# 7. check to see if the user is already logged in
+    # 7. check to see if the user is already logged in
     stored_access_token = login_session.get('access_token')
     stored_gplus_id = login_session.get('gplus_id')
     if stored_access_token is not None and gplus_id == stored_gplus_id:
         response = make_response(json.dumps('Current user is already logged in'), 200)
         response.headers['Content-Type'] = 'application/json'
         return response
+
+    # 7.0 Store the access token in the session for later use.
+    login_session['access_token'] = credentials.access_token
+    login_session['gplus_id'] = gplus_id
 
 
 @app.route('/teams/JSON')
