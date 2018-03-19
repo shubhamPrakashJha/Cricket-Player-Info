@@ -94,7 +94,7 @@ def gconnect():
     # If there was an error in the access token info, abort.
     if result.get('error') is not None:
         response = make_response(json.dumps(result.get('error')), 500)
-        response.headers['Content_Type'] = 'application/json'
+        response.headers['Content-Type'] = 'application/json'
         return response
 
     # 5. Verify that the access token is used for the intended user.(since we know the access is working but is it right?)
@@ -253,6 +253,7 @@ def show_teams():
 @app.route("/team/new/", methods=['GET', 'POST'])
 def new_team():
     # return "This page will create new Team"
+    # n Step 7. redirect to login page if user is not logged in before editing
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
