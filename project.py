@@ -276,12 +276,12 @@ def show_teams():
 @app.route("/team/new/", methods=['GET', 'POST'])
 def new_team():
     # return "This page will create new Team"
-    # n Step 7. redirect to login page if user is not logged in before editing
+    # n Step 7. redirect to login page if user is not logged in before creating
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
         if request.form['name']:
-            # add user_id details in database while creating new Restaurants
+            # add user_id details in database while creating new Team
             name = request.form['name']
             image_url = request.form['image_url']
             newTeam = Team(name=name, image_url=image_url, user_id=login_session['user_id'])
