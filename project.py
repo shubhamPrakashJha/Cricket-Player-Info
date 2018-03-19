@@ -2,15 +2,19 @@ from flask import Flask
 from flask import render_template, request, redirect, url_for
 from flask import jsonify
 from flask import flash
+
 app = Flask(__name__)
 
 from sqlalchemy import create_engine, asc
+
 engine = create_engine('sqlite:///teamplayer.db')
 
 from database_setup import Base, Team, Player
+
 Base.metadata.bind = engine
 
 from sqlalchemy.orm import sessionmaker
+
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
@@ -40,6 +44,16 @@ import random, string
 #
 # roles = [p['role'] for p in players]
 
+# Step 2.2 Create a state token to prevent request forgery.
+# store it in the session for later validation
+@app.route('/login')
+def show_login():
+    state = ''.join(random.choice(string.ascii_uppercase + string.digits) for i in xrange(32))
+    login_session['state'] = state
+    # return "The current session state is %s" %login_session['state']
+    return render_template('login.html', STATE=state)
+
+
 @app.route('/teams/JSON')
 def teams_json():
     teams = session.query(Team).all()
@@ -63,9 +77,9 @@ def player_info_json(team_id, player_id):
 @app.route("/")
 @app.route("/teams/")
 def show_teams():
-    teams=session.query(Team).all()
+    teams = session.query(Team).all()
     # return "This page will show all Teams"
-        return render_template('teams.html', teams=teams)
+    return render_template('teams.html', teams=teams)
 
 
 @app.route("/team/new/", methods=['GET', 'POST'])
@@ -121,7 +135,8 @@ def show_players(team_id):
     players = session.query(Player).filter_by(team_id=team.id).all()
     roles_array = [player.role for player in players]
     roles = set(roles_array)
-    return render_template('players.html',team=team,players=players,roles=roles)
+    return render_template('players.html', team=team, players=players, roles=roles)
+
 
 @app.route("/team/<int:team_id>/player/new/", methods=['POST', 'GET'])
 def new_player(team_id):
