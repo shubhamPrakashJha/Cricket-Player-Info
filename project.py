@@ -74,7 +74,9 @@ def gconnect():
         response = make_response(json.dumps('Invalid State parameter'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
-
+    # 2. Obtain authorization code
+    code = request.data
+    print code
 
 @app.route('/teams/JSON')
 def teams_json():
