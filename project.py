@@ -66,6 +66,26 @@ def showLogin():
     return render_template('login.html', STATE=state)
 
 
+@app.route('/disconnect')
+def disconnect():
+    if 'provider' in login_session:
+        if login_session['provider'] == 'google':
+            gdisconnect()
+            del login_session['gplus_id']
+            del login_session['access_token']
+
+        del login_session['username']
+        del login_session['email']
+        del login_session['picture']
+        del login_session['user_id']
+        del login_session['provider']
+        flash("you have successfully been logged out.")
+        return redirect(url_for('show_teams'))
+    else:
+        flash("you are not logged in to begin with")
+        return redirect(url_for('show_teams'))
+
+
 # Step 5.3 gconnect route
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
@@ -124,6 +144,7 @@ def gconnect():
         return response
 
     # 7.0 Store the access token in the session for later use.
+    login_session['provider'] = 'google'
     login_session['access_token'] = credentials.access_token
     login_session['gplus_id'] = gplus_id
 
@@ -211,11 +232,6 @@ def gdisconnect():
     print result
 
     if result['status'] == '200':
-        del login_session['access_token']
-        del login_session['gplus_id']
-        del login_session['username']
-        del login_session['email']
-        del login_session['picture']
         response = make_response(json.dumps('Successfully disconnected.', 200))
         response.headers['Content-Type'] = 'application/json'
         return response
