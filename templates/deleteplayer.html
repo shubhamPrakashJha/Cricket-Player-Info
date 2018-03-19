@@ -10,16 +10,33 @@
 </head>
 <body>
 <div class="top-banner">
-    <p>CRICKET TEAM SUBMISSION APP</p>
-    <a class="button">Login</a>
+    <p><a href="{{ url_for('show_teams') }}">CRICKET TEAM SUBMISSION APP</a></p>
+    <div class="login">
+        <div class="button">
+            {% if 'username' not in session %}
+                <a href="{{ url_for('showLogin') }}">Login</a>
+            {% else %}
+                <a href="{{ url_for('disconnect') }}">Logout</a>
+            {% endif %}
+        </div>
+        <figure class="creator">
+            <img src="{{ creator.picture }}">
+        </figure>
+    </div>
 </div>
 <div class="pane">
     <h1>Are you Sure you want to Delete {{ player.name }} profile?</h1>
-    <div class="minipane"><form action="{{ url_for('delete_player', team_id=team.id, player_id=player.id) }}" method="post">
-        <input type="submit" value="Delete">
-        <a href="{{ url_for('show_players', team_id=team.id) }}">Cancel</a>
+    <div class="minipane">
+        <form action="{{ url_for('delete_player', team_id=team.id, player_id=player.id) }}" method="post">
+            <input type="submit" value="Delete">
+            <a href="{{ url_for('show_players', team_id=team.id) }}">Cancel</a>
 
-    </form></div>
+        </form>
+    </div>
+    <footer>
+        <hr>
+        <p align="center">&circledR; Registered Trademark of Shubham Prakash Jha</p>
+    </footer>
 </div>
 </body>
 </html>

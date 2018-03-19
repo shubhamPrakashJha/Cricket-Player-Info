@@ -270,7 +270,8 @@ def show_teams():
     if 'username' not in login_session:
         return render_template('publicteams.html', teams=teams)
     else:
-        return render_template('teams.html', teams=teams)
+        creator = getUserInfo(login_session['user_id'])
+        return render_template('teams.html', teams=teams, creator=creator)
 
 
 @app.route("/team/new/", methods=['GET', 'POST'])
@@ -290,7 +291,8 @@ def new_team():
             flash('New Team Added')
         return redirect(url_for('show_teams'))
     else:
-        return render_template('newteam.html')
+        creator = getUserInfo(login_session['user_id'])
+        return render_template('newteam.html', creator=creator)
 
 
 @app.route("/team/<int:team_id>/edit/", methods=['GET', 'POST'])
@@ -310,7 +312,8 @@ def edit_team(team_id):
         flash('Team Name Successfully Edited')
         return redirect(url_for('show_teams'))
     else:
-        return render_template('editteam.html', team=editedTeam, team_id=team_id)
+        creator = getUserInfo(login_session['user_id'])
+        return render_template('editteam.html', team=editedTeam, team_id=team_id, creator=creator)
 
 
 @app.route("/team/<int:team_id>/delete/", methods=['GET', 'POST'])
@@ -327,7 +330,8 @@ def delete_team(team_id):
         flash('Team Successfully Deleted')
         return redirect(url_for('show_teams'))
     else:
-        return render_template('deleteteam.html', team=deletedTeam)
+        creator = getUserInfo(login_session['user_id'])
+        return render_template('deleteteam.html', team=deletedTeam, creator=creator)
 
 
 @app.route("/team/<int:team_id>/")
@@ -375,7 +379,8 @@ def new_player(team_id):
             flash('New Player Added in Team')
         return redirect(url_for('show_players', team_id=team_id))
     else:
-        return render_template('newplayer.html', team=team)
+        creator = getUserInfo(login_session['user_id'])
+        return render_template('newplayer.html', team=team, creator=creator)
 
 
 @app.route("/team/<int:team_id>/player/<int:player_id>/edit/", methods=['POST', 'GET'])
@@ -416,7 +421,8 @@ def edit_player(team_id, player_id):
         flash('Player Information Successfully Edited')
         return redirect(url_for('show_players', team_id=team_id, player_id=player_id))
     else:
-        return render_template('editplayer.html', team=team, player=editedPlayer)
+        creator = getUserInfo(login_session['user_id'])
+        return render_template('editplayer.html', team=team, player=editedPlayer, creator=creator)
 
 
 @app.route("/team/<int:team_id>/player/<int:player_id>/delete/", methods=['POST', 'GET'])
@@ -435,7 +441,8 @@ def delete_player(team_id, player_id):
         flash('Player Successfully Deleted')
         return redirect(url_for('show_players', team_id=team_id))
     else:
-        return render_template('deleteplayer.html', team=team, player=deletedPlayer)
+        creator = getUserInfo(login_session['user_id'])
+        return render_template('deleteplayer.html', team=team, player=deletedPlayer, creator=creator)
 
 
 if __name__ == '__main__':

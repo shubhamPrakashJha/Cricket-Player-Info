@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="top-banner">
-    <p>CRICKET TEAM SUBMISSION APP</p>
+    <p><a href="{{ url_for('show_teams') }}">CRICKET TEAM SUBMISSION APP</a></p>
 </div>
 <div class="pane">
     <div id="hide">
@@ -40,7 +40,10 @@
     {# Step 4 Make a Callback Method #}
     <div id="result"></div>
 
-
+    <footer>
+        <hr>
+        <p align="center">&circledR; Registered Trademark of Shubham Prakash Jha</p>
+    </footer>
 </div>
 
 <script>
@@ -58,10 +61,10 @@
                 data: authResult['code'],
                 success: function (result) {
                     if (result) {
-                        $('#result').html('Login Successful</br>' + result + '</br>Redirecting...');
+                        $('#result').html( result + '<br><br>Login Successful</br>' + '</br>Redirecting...');
                         setTimeout(function () {
                             window.location.href = "/teams";
-                        }, 2000);
+                        }, 1000);
                     } else if (authResult['error']) {
                         console.log('This was an error: ' + authResult['error']);
                     } else {
