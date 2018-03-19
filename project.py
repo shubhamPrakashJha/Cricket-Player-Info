@@ -1,18 +1,22 @@
 from flask import Flask
-from flask import render_template,request,redirect,url_for
+from flask import render_template, request, redirect, url_for
 from flask import jsonify
 from flask import flash
 app = Flask(__name__)
 
-from sqlalchemy import create_engine
-engine=create_engine('sqlite:///teamplayer.db')
+from sqlalchemy import create_engine, asc
+engine = create_engine('sqlite:///teamplayer.db')
 
 from database_setup import Base, Team, Player
-Base.metadata.bind=engine
+Base.metadata.bind = engine
 
 from sqlalchemy.orm import sessionmaker
-DBSession=sessionmaker(bind=engine)
-session=DBSession()
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
+
+# Step 2.1 Create anti forgery state token
+from flask import session as login_session
+import random, string
 
 
 # Fake teams
@@ -38,19 +42,21 @@ session=DBSession()
 
 @app.route('/teams/JSON')
 def teams_json():
-    teams=session.query(Team).all()
+    teams = session.query(Team).all()
     return jsonify(Team=[team.serialize for team in teams])
+
 
 @app.route('/team/<int:team_id>/players/JSON')
 def team_players_json(team_id):
-    team=session.query(Team).filter_by(id=team_id).one()
-    players=session.query(Player).filter_by(team_id=team.id).all()
+    team = session.query(Team).filter_by(id=team_id).one()
+    players = session.query(Player).filter_by(team_id=team.id).all()
     return jsonify(Players=[player.serialize for player in players])
 
+
 @app.route('/team/<int:team_id>/player/<int:player_id>/JSON')
-def player_info_json(team_id,player_id):
-    team=session.query(Team).filter_by(id=team_id).one()
-    player=session.query(Player).filter_by(id=player_id)
+def player_info_json(team_id, player_id):
+    team = session.query(Team).filter_by(id=team_id).one()
+    player = session.query(Player).filter_by(id=player_id)
     return jsonify(Player=[p.serialize for p in player])
 
 
@@ -59,16 +65,17 @@ def player_info_json(team_id,player_id):
 def show_teams():
     teams=session.query(Team).all()
     # return "This page will show all Teams"
-    return render_template('teams.html',teams=teams)
+        return render_template('teams.html', teams=teams)
 
-@app.route("/team/new/", methods=['GET','POST'])
+
+@app.route("/team/new/", methods=['GET', 'POST'])
 def new_team():
     # return "This page will create new Team"
-    if request.method=='POST':
+    if request.method == 'POST':
         if request.form['name']:
-            name=request.form['name']
-            image_url=request.form['image_url']
-            newTeam=Team(name=name, image_url=image_url)
+            name = request.form['name']
+            image_url = request.form['image_url']
+            newTeam = Team(name=name, image_url=image_url)
             session.add(newTeam)
             session.commit()
             flash('New Team Added')
@@ -76,7 +83,8 @@ def new_team():
     else:
         return render_template('newteam.html')
 
-@app.route("/team/<int:team_id>/edit/", methods=['GET','POST'])
+
+@app.route("/team/<int:team_id>/edit/", methods=['GET', 'POST'])
 def edit_team(team_id):
     # return "This page will edit Team %s" % team_id
     editedTeam = session.query(Team).filter_by(id=team_id).one()
@@ -91,103 +99,108 @@ def edit_team(team_id):
     else:
         return render_template('editteam.html', team=editedTeam, team_id=team_id)
 
-@app.route("/team/<int:team_id>/delete/", methods=['GET','POST'])
+
+@app.route("/team/<int:team_id>/delete/", methods=['GET', 'POST'])
 def delete_team(team_id):
     # return "This page will delete Team %s" % team_id
     deletedTeam = session.query(Team).filter_by(id=team_id).one()
-    if request.method =='POST':
+    if request.method == 'POST':
         session.delete(deletedTeam)
         session.commit()
         flash('Team Successfully Deleted')
         return redirect(url_for('show_teams'))
     else:
-        return render_template('deleteteam.html',team=deletedTeam)
+        return render_template('deleteteam.html', team=deletedTeam)
+
 
 @app.route("/team/<int:team_id>/")
 @app.route("/team/<int:team_id>/players/")
 def show_players(team_id):
     # return "This page will show all players of Team %s" % team_id
-    team=session.query(Team).filter_by(id=team_id).one()
-    players=session.query(Player).filter_by(team_id=team.id).all()
-    roles_array=[player.role for player in players]
-    roles=set(roles_array)
+    team = session.query(Team).filter_by(id=team_id).one()
+    players = session.query(Player).filter_by(team_id=team.id).all()
+    roles_array = [player.role for player in players]
+    roles = set(roles_array)
     return render_template('players.html',team=team,players=players,roles=roles)
 
-@app.route("/team/<int:team_id>/player/new/", methods=['POST','GET'])
+@app.route("/team/<int:team_id>/player/new/", methods=['POST', 'GET'])
 def new_player(team_id):
     # return "This page add new player in Team %s" % team_id
-    team=session.query(Team).filter_by(id=team_id).one()
-    if request.method=='POST':
+    team = session.query(Team).filter_by(id=team_id).one()
+    if request.method == 'POST':
         if request.form['name']:
-            newPlayer=Player(name=request.form['name'],
-                             role=request.form['role'],
-                             match=request.form['match'],
-                             runs=request.form['runs'],
-                             high_score=request.form['high_score'],
-                             avg=request.form['avg'],
-                             century=request.form['century'],
-                             fifty=request.form['fifty'],
-                             wickets=request.form['wickets'],
-                             bbm = request.form['bbm'],
-                             image_url=request.form['image_url'],
-                             team=team
-                             )
+            newPlayer = Player(name=request.form['name'],
+                               role=request.form['role'],
+                               match=request.form['match'],
+                               runs=request.form['runs'],
+                               high_score=request.form['high_score'],
+                               avg=request.form['avg'],
+                               century=request.form['century'],
+                               fifty=request.form['fifty'],
+                               wickets=request.form['wickets'],
+                               bbm=request.form['bbm'],
+                               image_url=request.form['image_url'],
+                               team=team
+                               )
             session.add(newPlayer)
             session.commit()
             flash('New Player Added in Team')
         return redirect(url_for('show_players', team_id=team_id))
     else:
-        return render_template('newplayer.html',team=team)
+        return render_template('newplayer.html', team=team)
 
-@app.route("/team/<int:team_id>/player/<int:player_id>/edit/", methods=['POST','GET'])
+
+@app.route("/team/<int:team_id>/player/<int:player_id>/edit/", methods=['POST', 'GET'])
 def edit_player(team_id, player_id):
     # return "This page will edit player %s of Team %s" % (player_id, team_id)
-    team=session.query(Team).filter_by(id=team_id).one()
-    editedPlayer=session.query(Player).filter_by(id=player_id).one()
-    if request.method=='POST':
+    team = session.query(Team).filter_by(id=team_id).one()
+    editedPlayer = session.query(Player).filter_by(id=player_id).one()
+    if request.method == 'POST':
         if request.form['name']:
-            editedPlayer.name=request.form['name']
+            editedPlayer.name = request.form['name']
         if request.form['role']:
-            editedPlayer.role=request.form['role']
+            editedPlayer.role = request.form['role']
         if request.form['match']:
-            editedPlayer.match= request.form['match']
+            editedPlayer.match = request.form['match']
         if request.form['runs']:
-            editedPlayer.runs= request.form['runs']
+            editedPlayer.runs = request.form['runs']
         if request.form['high_score']:
-            editedPlayer.high_score= request.form['high_score']
+            editedPlayer.high_score = request.form['high_score']
         if request.form['avg']:
-            editedPlayer.avg= request.form['avg']
+            editedPlayer.avg = request.form['avg']
         if request.form['century']:
-            editedPlayer.century= request.form['century']
+            editedPlayer.century = request.form['century']
         if request.form['fifty']:
-            editedPlayer.fifty= request.form['fifty']
+            editedPlayer.fifty = request.form['fifty']
         if request.form['wickets']:
-            editedPlayer.wickets= request.form['wickets']
+            editedPlayer.wickets = request.form['wickets']
         if request.form['bbm']:
-            editedPlayer.bbm= request.form['bbm']
+            editedPlayer.bbm = request.form['bbm']
         if request.form['image_url']:
-            editedPlayer.bbm= request.form['image_url']
+            editedPlayer.bbm = request.form['image_url']
         session.add(editedPlayer)
         session.commit()
         flash('Player Information Successfully Edited')
         return redirect(url_for('show_players', team_id=team_id, player_id=player_id))
     else:
-        return render_template('editplayer.html',team=team,player=editedPlayer)
+        return render_template('editplayer.html', team=team, player=editedPlayer)
 
-@app.route("/team/<int:team_id>/player/<int:player_id>/delete/", methods=['POST','GET'])
+
+@app.route("/team/<int:team_id>/player/<int:player_id>/delete/", methods=['POST', 'GET'])
 def delete_player(team_id, player_id):
     # return "This page will delete player %s of Team %s" % (player_id, team_id)
-    team=session.query(Team).filter_by(id=team_id).one()
-    deletedPlayer=session.query(Player).filter_by(id=player_id).one()
-    if request.method=='POST':
+    team = session.query(Team).filter_by(id=team_id).one()
+    deletedPlayer = session.query(Player).filter_by(id=player_id).one()
+    if request.method == 'POST':
         session.delete(deletedPlayer)
         session.commit()
         flash('Player Successfully Deleted')
         return redirect(url_for('show_players', team_id=team_id))
     else:
-        return render_template('deleteplayer.html',team=team,player=deletedPlayer)
+        return render_template('deleteplayer.html', team=team, player=deletedPlayer)
+
 
 if __name__ == '__main__':
-    app.secret_key='some_secret'
+    app.secret_key = 'some_secret'
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
