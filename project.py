@@ -106,6 +106,13 @@ def gconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
+    # 6. Verify that the access token is valid for this app.
+    if result['issued_to'] != CLIENT_ID:
+        response = make_response(json.dumps("Token Client id did not match app's"), 401)
+        print "Token Client id did not match app's"
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
 
 @app.route('/teams/JSON')
 def teams_json():
