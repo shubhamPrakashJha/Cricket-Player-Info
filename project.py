@@ -30,6 +30,9 @@ import json
 from flask import make_response
 import requests
 
+# Step 5.2 delclare Client id by refrencing client secrets
+CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
+
 # Fake teams
 # team = {'name': 'India','id': '1'}
 #
