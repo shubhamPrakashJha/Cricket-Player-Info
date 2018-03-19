@@ -155,6 +155,16 @@ def gdisconnect():
     '''
     DISCONNECT - Revoke a current user's token and reset their login_session
     '''
+    access_token = login_session.get('access_token')
+    # only disconnect a connected user
+    if access_token is None:
+        response = make_response(json.dumps('Current user not connected'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    print 'in gdisconnect access token is [%s]' % access_token
+    print 'User name is: '
+    print login_session['username']
 
 
 @app.route('/teams/JSON')
