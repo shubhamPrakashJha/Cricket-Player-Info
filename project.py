@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 # step 8.1 import User table as well
 from sqlalchemy import create_engine, asc
+
 engine = create_engine('sqlite:///teamplayerwithuser.db')
 from database_setup import Base, Team, Player, User
 
@@ -147,6 +148,33 @@ def gconnect():
     return output
 
 
+# Step 9. User Helper Function
+
+# Create User
+def createUser(login_session):
+    newUser = User(name=login_session['username'], email=login_session['email'],
+                   picture=login_session['picture'])
+    session.add(newUser)
+    session.commit()
+    user = session.query(User).filter_by(email=login_session['email']).one()
+    return user.id
+
+
+# get user id from email
+def getUserID(email):
+    try:
+        user = session.query(User).filter_by(email=email).one()
+        return user.id
+    except:
+        return None
+
+
+# get user info from user id as object
+def getUserInfo(user_id):
+    user = session.query(User).filter_by(id=user_id).one()
+    return user
+
+
 # Step 6 Disconnect
 @app.route("/gdisconnect")
 def gdisconnect():
@@ -185,7 +213,6 @@ def gdisconnect():
         response = make_response(json.dumps('Failed to revoke token for given user.', 400))
         response.headers['Content-Type'] = 'application/json'
         return response
-
 
 
 @app.route('/teams/JSON')
