@@ -1,35 +1,53 @@
-<html>
+<!doctype html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/styles.css">
+
     {#  Step 3.1 Create login page  #}
     <!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://apis.google.com/js/platform.js?onload=start" async defer></script>
     <!-- END PRE-REQUISITES FOR GOOGLE SIGN IN -->
-
 </head>
 <body>
-{# step 3.2 GOOGLE PLUS SIGN IN BUTTON #}
-<div id="signinButton">
-    <span class="g-signin"
-          data-scope="openid email"
-          data-clientid="782880132703-mejip9njl1m3gdp50qjivcpqnn4n9b5t.apps.googleusercontent.com"
-          data-redirecturi="postmessage"
-          data-accesstype="offline"
-          data-cookiepolicy="single_host_origin"
-          data-callback="signInCallback"
-          data-approvalprompt="force">
-    </span>
+<div class="top-banner">
+    <p>CRICKET TEAM SUBMISSION APP</p>
 </div>
-<!--END GOOGLE PLUS SIGN IN BUTTON -->
+<div class="pane">
+    <div id="hide">
+        <h1>Login to Create or Edit your Team</h1>
+        <br><br>
+        {# step 3.2 GOOGLE PLUS SIGN IN BUTTON #}
+        <div id="signinButton">
+            <span class="g-signin"
+                  data-scope="openid email"
+                  data-clientid="782880132703-mejip9njl1m3gdp50qjivcpqnn4n9b5t.apps.googleusercontent.com"
+                  data-redirecturi="postmessage"
+                  data-accesstype="offline"
+                  data-cookiepolicy="single_host_origin"
+                  data-callback="signInCallback"
+                  data-approvalprompt="force">
+            </span>
+        </div>
+        <br>
+        <a href="{{ url_for('show_teams') }}">Cancel</a>
+        <!--END GOOGLE PLUS SIGN IN BUTTON -->
+    </div>
+    {# Step 4 Make a Callback Method #}
+    <div id="result"></div>
 
-{# Step 4 Make a Callback Method #}
-<div id="result"></div>
+
+</div>
 
 <script>
     function signInCallback(authResult) {
-        if (authResult['code']){
+        if (authResult['code']) {
             // Hide the sign-in button now that the user is authorized
-            $('#signinButton').attr('style','display: none');
+            $('#hide').attr('style', 'display: none');
 
             // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
             $.ajax({
@@ -39,14 +57,14 @@
                 contentType: 'application/octet-stream; charset=utf-8',
                 data: authResult['code'],
                 success: function (result) {
-                    if (result){
-                        $('#result').html('Login Successful</br>'+result+'</br>Redirecting...')
+                    if (result) {
+                        $('#result').html('Login Successful</br>' + result + '</br>Redirecting...');
                         setTimeout(function () {
-                            window.location.href="/teams";
-                        },4000);
-                    }else if (authResult['error']){
-                        console.log('This was an error: '+authResult['error']);
-                    }else {
+                            window.location.href = "/teams";
+                        }, 2000);
+                    } else if (authResult['error']) {
+                        console.log('This was an error: ' + authResult['error']);
+                    } else {
                         $('#result').html('Failed to make a server-side call. check your configuration and console');
                     }
                 }
@@ -55,5 +73,6 @@
         }
     }
 </script>
+<!--END GOOGLE PLUS SIGN IN -->
 </body>
 </html>
