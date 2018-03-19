@@ -5,14 +5,12 @@ from flask import flash
 
 app = Flask(__name__)
 
+# step 8.1 import User table as well
 from sqlalchemy import create_engine, asc
-
-engine = create_engine('sqlite:///teamplayer.db')
-
-from database_setup import Base, Team, Player
+engine = create_engine('sqlite:///teamplayerwithuser.db')
+from database_setup import Base, Team, Player, User
 
 Base.metadata.bind = engine
-
 from sqlalchemy.orm import sessionmaker
 
 DBSession = sessionmaker(bind=engine)
