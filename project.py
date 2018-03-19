@@ -221,6 +221,8 @@ def show_teams():
 @app.route("/team/new/", methods=['GET', 'POST'])
 def new_team():
     # return "This page will create new Team"
+    if 'username' not in login_session:
+        return redirect('/login')
     if request.method == 'POST':
         if request.form['name']:
             name = request.form['name']
@@ -237,6 +239,8 @@ def new_team():
 @app.route("/team/<int:team_id>/edit/", methods=['GET', 'POST'])
 def edit_team(team_id):
     # return "This page will edit Team %s" % team_id
+    if 'username' not in login_session:
+        return redirect('/login')
     editedTeam = session.query(Team).filter_by(id=team_id).one()
     if request.method == 'POST':
         if request.form['name']:
@@ -253,6 +257,8 @@ def edit_team(team_id):
 @app.route("/team/<int:team_id>/delete/", methods=['GET', 'POST'])
 def delete_team(team_id):
     # return "This page will delete Team %s" % team_id
+    if 'username' not in login_session:
+        return redirect('/login')
     deletedTeam = session.query(Team).filter_by(id=team_id).one()
     if request.method == 'POST':
         session.delete(deletedTeam)
@@ -277,6 +283,8 @@ def show_players(team_id):
 @app.route("/team/<int:team_id>/player/new/", methods=['POST', 'GET'])
 def new_player(team_id):
     # return "This page add new player in Team %s" % team_id
+    if 'username' not in login_session:
+        return redirect('/login')
     team = session.query(Team).filter_by(id=team_id).one()
     if request.method == 'POST':
         if request.form['name']:
@@ -304,6 +312,8 @@ def new_player(team_id):
 @app.route("/team/<int:team_id>/player/<int:player_id>/edit/", methods=['POST', 'GET'])
 def edit_player(team_id, player_id):
     # return "This page will edit player %s of Team %s" % (player_id, team_id)
+    if 'username' not in login_session:
+        return redirect('/login')
     team = session.query(Team).filter_by(id=team_id).one()
     editedPlayer = session.query(Player).filter_by(id=player_id).one()
     if request.method == 'POST':
@@ -340,6 +350,8 @@ def edit_player(team_id, player_id):
 @app.route("/team/<int:team_id>/player/<int:player_id>/delete/", methods=['POST', 'GET'])
 def delete_player(team_id, player_id):
     # return "This page will delete player %s of Team %s" % (player_id, team_id)
+    if 'username' not in login_session:
+        return redirect('/login')
     team = session.query(Team).filter_by(id=team_id).one()
     deletedPlayer = session.query(Player).filter_by(id=player_id).one()
     if request.method == 'POST':
