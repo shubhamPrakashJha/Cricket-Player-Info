@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Players</title>
+</head>
+<body>
+<div class="top-banner">
+    <p>CRICKET TEAM SUBMISSION APP</p>
+    <div class="login">
+        <div class="button">
+            {% if 'username' not in session %}
+                <a href="{{ url_for('showLogin') }}">Login</a>
+            {% else %}
+                <a href="{{ url_for('disconnect') }}">Logout</a>
+            {% endif %}
+        </div>
+        <figure class="creator">
+            <img src="{{ creator.picture }}">
+        </figure>
+    </div>
+</div>
+<div class="pane">
+    <div class="header">
+        <a href="{{ url_for('show_teams') }}"><h1>{{ team.name }}</h1></a>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class=flash>
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+    {% if players|count == 0 %}
+        <p>Team is yet to be selected</p>
+    {% endif %}
+    {#    <a href="{{ url_for('new_player', team_id=team.id) }}">Create new Player</a>#}
+    <br>
+    <div class="flexcontainer">
+        {% for role in roles %}
+            <div>
+                <h2>{{ role }}</h2>
+                <div class="flexcontainer">
+                    {% for player in players %}
+                        {% if player.role == role %}
+                            <div class="minipane">
+                                <b class="name">{{ player.name }}</b><br>
+                                <br>
+                                <div class="description">
+                                    <img src="{{ player.image_url }}"> <br>
+                                    <i>Match:{{ player.match }}</i><br>
+                                    <i>Runs: {{ player.runs }}</i><br>
+                                    <i>High Score: {{ player.high_score }}</i><br>
+                                    <i>Avg: {{ player.avg }}</i><br>
+                                    <i>Century: {{ player.century }}</i><br>
+                                    <i>Fifty: {{ player.fifty }}</i><br>
+                                    <i>Wickets: {{ player.wickets }}</i><br>
+                                    <i>Bbm: {{ player.bbm }}</i><br>
+
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <footer>
+        <hr>
+        <p align="center">Click on Team Name to go back</p>
+    </footer>
+</div>
+</body>
+</html>
