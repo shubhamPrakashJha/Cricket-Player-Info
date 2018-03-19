@@ -6,14 +6,15 @@ from sqlalchemy import create_engine
 
 Base = declarative_base()
 
-
+# step 8. create registered user database
 class User(Base):
     __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
-    picture = Column(String(250), nullable=False)
+    name = Column(String(250))
+    picture = Column(String(250))
+
 
 
 # Class
@@ -25,6 +26,8 @@ class Team(Base):
     name = Column(String(250), nullable=False)
     image_url = Column(String(500))
     id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User)
 
     @property
     def serialize(self):
@@ -54,6 +57,8 @@ class Player(Base):
     image_url = Column(String(500))
     team_id = Column(Integer, ForeignKey('team.id'))
     team = relationship(Team)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User)
 
     @property
     def serialize(self):
@@ -69,7 +74,7 @@ class Player(Base):
             'fifty': self.fifty,
             'wickets': self.wickets,
             'bbm': self.bbm,
-            'image_url': self.image_url
+            'image_url':self.image_url
         }
 
 
