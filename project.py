@@ -149,6 +149,14 @@ def gconnect():
     return output
 
 
+# Step 6 Disconnect
+@app.route("/gdisconnect")
+def gdisconnect():
+    '''
+    DISCONNECT - Revoke a current user's token and reset their login_session
+    '''
+
+
 @app.route('/teams/JSON')
 def teams_json():
     teams = session.query(Team).all()
