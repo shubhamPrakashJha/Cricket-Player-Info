@@ -94,7 +94,7 @@
                 <input type="text" name="bbm" placeholder="{{ player.bbm }}" size="24px">
             </label><br>
             <label for="image_url">Image Url: <br>
-                <input type="text" name="image_url" size="24px">
+                <input type="text" name="image_url" size="24px" placeholder="{{ player.image_url }}">
             </label><br><br>
             <input type="submit" value="create">
             <a href="{{ url_for('show_players', team_id=team.id) }}" size="24px">Cancel</a>
