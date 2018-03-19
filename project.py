@@ -98,6 +98,14 @@ def gconnect():
         response.headers['Content_Type'] = 'application/json'
         return response
 
+    # 5. Verify that the access token is used for the intended user.(since we know the access is working but is it right?)
+    gplus_id = credentials.id_token['sub']
+    if result['user_id'] != gplus_id:
+        response = make_response(
+            json.dumps("Token's user ID doesn't match with given user ID."), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
 
 @app.route('/teams/JSON')
 def teams_json():
