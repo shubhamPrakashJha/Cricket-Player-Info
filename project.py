@@ -223,9 +223,10 @@ def new_team():
         return redirect('/login')
     if request.method == 'POST':
         if request.form['name']:
+            # add user_id details in database while creating new Restaurants
             name = request.form['name']
             image_url = request.form['image_url']
-            newTeam = Team(name=name, image_url=image_url)
+            newTeam = Team(name=name, image_url=image_url, user_id=login_session['user_id'])
             session.add(newTeam)
             session.commit()
             flash('New Team Added')
@@ -286,6 +287,7 @@ def new_player(team_id):
     team = session.query(Team).filter_by(id=team_id).one()
     if request.method == 'POST':
         if request.form['name']:
+            # step 9. add player creator user_id details while creating new player in team
             newPlayer = Player(name=request.form['name'],
                                role=request.form['role'],
                                match=request.form['match'],
@@ -297,6 +299,7 @@ def new_player(team_id):
                                wickets=request.form['wickets'],
                                bbm=request.form['bbm'],
                                image_url=request.form['image_url'],
+                               user_id=team.user_id,
                                team=team
                                )
             session.add(newPlayer)
