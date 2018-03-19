@@ -9,6 +9,10 @@
     <title>Edit Player</title>
 </head>
 <body>
+<div class="top-banner">
+    <p>Cricket Team Submission App</p>
+    <a class="button">Login</a>
+</div>
 <div class="pane"><h1>Edit Player</h1>
     <div class="minipane">
         <form action="{{ url_for('edit_player', team_id=team.id, player_id=player.id) }}" method="post">
