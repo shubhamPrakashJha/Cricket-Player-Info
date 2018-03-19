@@ -33,6 +33,7 @@ import requests
 # Step 5.2 delclare Client id by refrencing client secrets
 CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
 
+
 # Fake teams
 # team = {'name': 'India','id': '1'}
 #
@@ -62,6 +63,12 @@ def show_login():
     login_session['state'] = state
     # return "The current session state is %s" %login_session['state']
     return render_template('login.html', STATE=state)
+
+
+# Step 5.3 gconnect route
+@app.route('/gconnect', methods=['POST'])
+def gconnect():
+    '''on server side, create this function to handle the code sent back from the callback method'''
 
 
 @app.route('/teams/JSON')
