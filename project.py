@@ -9,9 +9,11 @@ app = Flask(__name__)
 from sqlalchemy import create_engine, asc
 
 engine = create_engine('sqlite:///teamplayerwithuser.db')
+
 from database_setup import Base, Team, Player, User
 
 Base.metadata.bind = engine
+
 from sqlalchemy.orm import sessionmaker
 
 DBSession = sessionmaker(bind=engine)
@@ -57,10 +59,10 @@ CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_i
 # Step 2.2 Create a state token to prevent request forgery.
 # store it in the session for later validation
 @app.route('/login')
-def show_login():
+def showLogin():
     state = ''.join(random.choice(string.ascii_uppercase + string.digits) for i in xrange(32))
     login_session['state'] = state
-    # return "The current session state is %s" %login_session['state']
+    # return "The current session state is %s" % login_session['state']
     return render_template('login.html', STATE=state)
 
 
@@ -88,7 +90,8 @@ def gconnect():
 
     # 4. Check that the access token is valid.
     access_token = credentials.access_token
-    url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s' % access_token)
+    url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s'
+           % access_token)
     h = httplib2.Http()
     result = json.loads(h.request(url, 'GET')[1])
     # If there was an error in the access token info, abort.
@@ -217,7 +220,8 @@ def gdisconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
     else:
-        response = make_response(json.dumps('Failed to revoke token for given user.', 400))
+        response = make_response(
+            json.dumps('Failed to revoke token for given user.', 400))
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -245,9 +249,12 @@ def player_info_json(team_id, player_id):
 @app.route("/")
 @app.route("/teams/")
 def show_teams():
-    teams = session.query(Team).all()
     # return "This page will show all Teams"
-    return render_template('teams.html', teams=teams)
+    teams = session.query(Team).order_by(asc(Team.name))
+    if 'username' not in login_session:
+        return render_template('publicteams.html', teams=teams)
+    else:
+        return render_template('teams.html', teams=teams)
 
 
 @app.route("/team/new/", methods=['GET', 'POST'])
@@ -311,7 +318,11 @@ def show_players(team_id):
     players = session.query(Player).filter_by(team_id=team.id).all()
     roles_array = [player.role for player in players]
     roles = set(roles_array)
-    return render_template('players.html', team=team, players=players, roles=roles)
+    creator = getUserInfo(team.user_id)
+    if 'username' not in login_session or login_session['user_id'] != creator.id:
+        return render_template('publicplayers.html', team=team, players=players, roles=roles, creator=creator)
+    else:
+        return render_template('players.html', team=team, players=players, roles=roles, creator=creator)
 
 
 @app.route("/team/<int:team_id>/player/new/", methods=['POST', 'GET'])
