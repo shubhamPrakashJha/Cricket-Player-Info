@@ -4,6 +4,8 @@ by Shubham Prakash
 ## About
 A **Cricket Tournament Team Submission Web App** that is based on **_flask framework_** to _Submit_ New **Team** And their **Players**. The web App uses **_SQLAlchemy_** as the **ORM** to provide all the **CRUD Functionality** to _View_, _Create_, _Edit_ and _Delete_ Teams and Players.The website also implement a **Third party authentication and authorization** service and  **Local Permission System** and thus consider _authorization status_ prior to execution of CRUD Functionality. So that, the _User Who created that Team Will only be able to edit/delete the Team and its Players and create new Players Other will only be able to view them_. the  The App also implements a **JSON endpoint** that serves the same information as displayed in the **HTML endpoints** for an arbitrary object in the _Cricket Catalog Web App_.
 
+![output screenshot](img/report.png)
+
 ## STACKS USED
 - Python
 - Flask
@@ -15,7 +17,6 @@ A **Cricket Tournament Team Submission Web App** that is based on **_flask frame
 - virtualbox
 - Git
 
-![output screenshot](img/report.png)
 
 ## REQUIREMENTS
 
