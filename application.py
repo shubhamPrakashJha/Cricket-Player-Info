@@ -2,64 +2,37 @@ from flask import Flask
 from flask import render_template, request, redirect, url_for
 from flask import jsonify
 from flask import flash
-
-app = Flask(__name__)
-
 # step 8.1 import User table as well
 from sqlalchemy import create_engine, asc
-
-engine = create_engine('sqlite:///teamplayerwithuser.db')
-
 from database_setup import Base, Team, Player, User
-
-Base.metadata.bind = engine
-
 from sqlalchemy.orm import sessionmaker
-
-DBSession = sessionmaker(bind=engine)
-session = DBSession()
-
 # Step 2.1 Create anti forgery state token
 from flask import session as login_session
-import random, string
-
+import random
+import string
 # Step 5.1 GConnect
-from oauth2client.client import flow_from_clientsecrets
-from oauth2client.client import FlowExchangeError
+from oauth2client.client import flow_from_clientsecrets, FlowExchangeError
 import httplib2
 import json
 from flask import make_response
 import requests
 
+app = Flask(__name__)
+
+engine = create_engine('sqlite:///teamplayerwithuser.db')
+Base.metadata.bind = engine
+
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
+
 # Step 5.2 delclare Client id by refrencing client secrets
 CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
 
 
-# Fake teams
-# team = {'name': 'India','id': '1'}
-#
-# teams = [{'name': 'India','id': '1'},
-#          {'name': 'Australia','id': '2'},
-#          {'name': 'England','id': '3'}]
-#
-# # Fake players
-#
-#
-# players = [
-#     {'name': "MS Dhoni",'role': "Wicketkeeper batsman",'match': "312",'runs': "9898",'high_score': "183*",'avg': "51.55",'century': "10",'fifty': "67",'wickets': "1",'bbm': "1/14",'id': "1"},
-#     {'name': "Virat Kohli",'role': " Top-order batsman",'match': "202",'runs': "9030",'high_score': "183",'avg': "55.74",'century': "32",'fifty': "45",'wickets': "4",'bbm': "1/15",'id': "2"},
-#     {'name': "Ravichandran Ashwin",'role': "Bowling allrounder",'match': "111",'runs': "675",'high_score': "65",'avg': "16.07",'century': "0",'fifty': "1",'wickets': "150",'bbm': "4/25",'id': "3"},
-#     {'name': "Shikhar Dhawan",'role': "Opening batsman",'match': "96",'runs': "4038",'high_score': "137",'avg': "44.86",'century': "12",'fifty': "23",'wickets': "0",'bbm': "0",'id': "4"},
-#     {'name': "Mohammed Shami Ahmed",'role': "Bowler",'match': "50",'runs': "116",'high_score': "25",'avg': "10.54",'century': "0",'fifty': "0",'wickets': "91",'bbm': "4/35",'id': "5"}]
-#
-# player = {'name': "MS Dhoni",'role': "Wicketkeeper batsman",'match': "312",'runs': "9898",'high_score': "183*",'avg': "51.55",'century': "10",'fifty': "67",'wickets': "1",'bbm': "1/14",'id': "1"}
-#
-# roles = [p['role'] for p in players]
-
 # Step 2.2 Create a state token to prevent request forgery.
 # store it in the session for later validation
 @app.route('/login')
-def showLogin():
+def show_login():
     state = ''.join(random.choice(string.ascii_uppercase + string.digits) for i in xrange(32))
     login_session['state'] = state
     # return "The current session state is %s" % login_session['state']
@@ -89,8 +62,9 @@ def disconnect():
 # Step 5.3 gconnect route
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
-    '''on server side, create this function to handle the code sent back from the callback method'''
-    # 1. Validate state token
+    '''on server side, create this function to handle the code sent back from the callback method
+    5.3.1. Validate state token
+    '''
     if request.args.get('state') != login_session['state']:
         response = make_response(json.dumps('Invalid State parameter'), 401)
         response.headers['Content-Type'] = 'application/json'
@@ -120,7 +94,8 @@ def gconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
-    # 5. Verify that the access token is used for the intended user.(since we know the access is working but is it right?)
+    # 5. Verify that the access token is used for the intended user.
+    # (since we know the access is working but is it right?)
     gplus_id = credentials.id_token['sub']
     if result['user_id'] != gplus_id:
         response = make_response(
@@ -173,7 +148,8 @@ def gconnect():
     output += '!</h1>'
     output += '<img src="'
     output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;' \
+              '-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
     flash("you are now logged in as %s" % login_session['username'])
     print "done!"
     return output
@@ -302,7 +278,8 @@ def edit_team(team_id):
     if 'username' not in login_session:
         return redirect('/login')
     if login_session['user_id'] != editedTeam.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to manipulate this Team data. Please create your own Team in order to do so.');}</script><body onload='myFunction()''>"
+        return "<script>function myFunction() {alert('You are not authorized to manipulate this Team data." \
+               " Please create your own Team in order to do so.');}</script><body onload='myFunction()''>"
     if request.method == 'POST':
         if request.form['name']:
             editedTeam.name = request.form['name']
@@ -323,7 +300,8 @@ def delete_team(team_id):
     if 'username' not in login_session:
         return redirect('/login')
     if login_session['user_id'] != deletedTeam.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to manipulate this Team data. Please create your own Team in order to do so.');}</script><body onload='myFunction()''>"
+        return "<script>function myFunction() {alert('You are not authorized to manipulate this Team data." \
+               " Please create your own Team in order to do so.');}</script><body onload='myFunction()''>"
     if request.method == 'POST':
         session.delete(deletedTeam)
         session.commit()
@@ -356,7 +334,8 @@ def new_player(team_id):
     if 'username' not in login_session:
         return redirect('/login')
     if login_session['user_id'] != team.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to manipulate this Team data. Please create your own Team in order to do so.');}</script><body onload='myFunction()''>"
+        return "<script>function myFunction() {alert('You are not authorized to manipulate this Team data." \
+               " Please create your own Team in order to do so.');}</script><body onload='myFunction()''>"
     if request.method == 'POST':
         if request.form['name']:
             # step 9. add player creator user_id details while creating new player in team
@@ -391,7 +370,8 @@ def edit_player(team_id, player_id):
     if 'username' not in login_session:
         return redirect('/login')
     if login_session['user_id'] != team.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to manipulate this Team data. Please create your own Team in order to do so.');}</script><body onload='myFunction()''>"
+        return "<script>function myFunction() {alert('You are not authorized to manipulate this Team data." \
+               " Please create your own Team in order to do so.');}</script><body onload='myFunction()''>"
 
     if request.method == 'POST':
         if request.form['name']:
@@ -433,7 +413,8 @@ def delete_player(team_id, player_id):
     if 'username' not in login_session:
         return redirect('/login')
     if login_session['user_id'] != team.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to manipulate this Team data. Please create your own Team in order to do so.');}</script><body onload='myFunction()''>"
+        return "<script>function myFunction() {alert('You are not authorized to manipulate this Team data. " \
+               "Please create your own Team in order to do so.');}</script><body onload='myFunction()''>"
 
     if request.method == 'POST':
         session.delete(deletedPlayer)
@@ -442,7 +423,8 @@ def delete_player(team_id, player_id):
         return redirect(url_for('show_players', team_id=team_id))
     else:
         creator = getUserInfo(login_session['user_id'])
-        return render_template('deleteplayer.html', team=team, player=deletedPlayer, creator=creator)
+        return render_template('deleteplayer.html', team=team,
+                               player=deletedPlayer, creator=creator)
 
 
 if __name__ == '__main__':
