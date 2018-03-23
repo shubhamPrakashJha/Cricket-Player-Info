@@ -10,7 +10,8 @@
 </head>
 <body>
 <div class="top-banner">
-    <p><a href="{{ url_for('show_teams') }}">CRICKET TEAM SUBMISSION APP</a></p>
+    <p><a href="{{ url_for('show_teams') }}">CRICKET TEAM SUBMISSION APP</a>
+    </p>
     <div class="login">
         <div class="button">
             {% if 'username' not in session %}
@@ -26,12 +27,15 @@
 </div>
 <div class="pane"><h1>Edit Name of Team {{ team.name }}</h1>
     <div class="teamminipane">
-        <form action="{{ url_for('edit_team',team_id=team.id) }}" method="post">
+        <form action="{{ url_for('edit_team',team_id=team.id) }}"
+              method="post">
             <label for="name">Name: <br><br>
-                <input type="text" name="name" placeholder="{{ team.name }}" size="30px">
+                <input type="text" name="name" placeholder="{{ team.name }}"
+                       size="30px">
             </label>
             <label for="image_url">Image Url: <br><br>
-                <input type="text" name="image_url" placeholder="{{ team.image_url }}" size="30px">
+                <input type="text" name="image_url"
+                       placeholder="{{ team.image_url }}" size="30px">
             </label>
             <br><br>
             <input type="submit" name="Update">
@@ -40,7 +44,8 @@
     </div>
     <footer>
         <hr>
-        <p align="center">&circledR; Registered Trademark of Shubham Prakash Jha</p>
+        <p align="center">&circledR; Registered Trademark of Shubham Prakash
+            Jha</p>
     </footer>
 </div>
 </body>

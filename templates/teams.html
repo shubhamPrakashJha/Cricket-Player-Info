@@ -10,7 +10,8 @@
 </head>
 <body>
 <div class="top-banner">
-    <p><a href="{{ url_for('show_teams') }}">CRICKET TEAM SUBMISSION APP</a></p>
+    <p><a href="{{ url_for('show_teams') }}">CRICKET TEAM SUBMISSION APP</a>
+    </p>
     <div class="login">
         <div class="button">
             {% if 'username' not in session %}
@@ -41,10 +42,12 @@
     {#    <a href="{{ url_for('new_team') }}">Add new team</a><br><br>#}
     <div class="flexcontainer">{% for team in teams %}
         <div class="teamminipane">
-            <a href="{{ url_for('show_players', team_id=team.id) }}"><h2>{{ team.name }}</h2></a>
+            <a href="{{ url_for('show_players', team_id=team.id) }}">
+                <h2>{{ team.name }}</h2></a>
             <div class="editdeletepane">
                 <br><br>
-                <a href="{{ url_for('show_players', team_id=team.id) }}"><img src="{{ team.image_url }}"></a>
+                <a href="{{ url_for('show_players', team_id=team.id) }}"><img
+                        src="{{ team.image_url }}"></a>
             </div>
         </div>
     {% endfor %}
@@ -59,7 +62,8 @@
     <br><br>
     <footer>
         <hr>
-        <p align="center">&circledR; Registered Trademark of Shubham Prakash Jha</p>
+        <p align="center">&circledR; Registered Trademark of Shubham Prakash
+            Jha</p>
     </footer>
 </div>
 </body>

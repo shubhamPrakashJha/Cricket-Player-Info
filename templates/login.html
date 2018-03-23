@@ -10,12 +10,14 @@
     {#  Step 3.1 Create login page  #}
     <!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://apis.google.com/js/platform.js?onload=start" async defer></script>
+    <script src="https://apis.google.com/js/platform.js?onload=start" async
+            defer></script>
     <!-- END PRE-REQUISITES FOR GOOGLE SIGN IN -->
 </head>
 <body>
 <div class="top-banner">
-    <p><a href="{{ url_for('show_teams') }}">CRICKET TEAM SUBMISSION APP</a></p>
+    <p><a href="{{ url_for('show_teams') }}">CRICKET TEAM SUBMISSION APP</a>
+    </p>
 </div>
 <div class="pane">
     <div id="hide">
@@ -42,7 +44,8 @@
 
     <footer>
         <hr>
-        <p align="center">&circledR; Registered Trademark of Shubham Prakash Jha</p>
+        <p align="center">&circledR; Registered Trademark of Shubham Prakash
+            Jha</p>
     </footer>
 </div>
 
@@ -61,7 +64,7 @@
                 data: authResult['code'],
                 success: function (result) {
                     if (result) {
-                        $('#result').html( result + '<br><br>Login Successful</br>' + '</br>Redirecting...');
+                        $('#result').html(result + '<br><br>Login Successful</br>' + '</br>Redirecting...');
                         setTimeout(function () {
                             window.location.href = "/teams";
                         }, 1000);

@@ -10,7 +10,8 @@
 </head>
 <body>
 <div class="top-banner">
-    <<p><a href="{{ url_for('show_teams') }}">CRICKET TEAM SUBMISSION APP</a></p>
+    <<p><a href="{{ url_for('show_teams') }}">CRICKET TEAM SUBMISSION APP</a>
+</p>
     <div class="login">
         <div class="button">
             {% if 'username' not in session %}
@@ -32,13 +33,18 @@
                 <select name="role" size="1px" autofocus>
                     <option value="Batsman">batsman</option>
                     <option value="Opening batsman">Opening batsman</option>
-                    <option value="Top-order batsman">Top-order batsman</option>
-                    <option value="Middle-order batsman">Middle-order batsman</option>
-                    <option value="Batting allrounder">Batting allrounder</option>
+                    <option value="Top-order batsman">Top-order batsman
+                    </option>
+                    <option value="Middle-order batsman">Middle-order batsman
+                    </option>
+                    <option value="Batting allrounder">Batting allrounder
+                    </option>
                     <option value="Wicketkeeper">wicketkeeper</option>
-                    <option value="Wicketkeeper batsman">Wicketkeeper batsman</option>
+                    <option value="Wicketkeeper batsman">Wicketkeeper batsman
+                    </option>
                     <option value="Bowler">bowler</option>
-                    <option value="Bowling allrounder">Bowling allrounder</option>
+                    <option value="Bowling allrounder">Bowling allrounder
+                    </option>
                     <option value="Allrounder">allrounder</option>
                 </select>
             </label><br>
@@ -78,7 +84,8 @@
     </form>
     <footer>
         <hr>
-        <p align="center">&circledR; Registered Trademark of Shubham Prakash Jha</p>
+        <p align="center">&circledR; Registered Trademark of Shubham Prakash
+            Jha</p>
     </footer>
 </div>
 </body>

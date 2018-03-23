@@ -10,7 +10,8 @@
 </head>
 <body>
 <div class="top-banner">
-    <p><a href="{{ url_for('show_teams') }}">CRICKET TEAM SUBMISSION APP</a></p>
+    <p><a href="{{ url_for('show_teams') }}">CRICKET TEAM SUBMISSION APP</a>
+    </p>
     <div class="login">
         <div class="button">
             {% if 'username' not in session %}
@@ -56,7 +57,8 @@
                                     <img src="{{ player.image_url }}"> <br>
                                     <i>Match:{{ player.match }}</i><br>
                                     <i>Runs: {{ player.runs }}</i><br>
-                                    <i>High Score: {{ player.high_score }}</i><br>
+                                    <i>High
+                                        Score: {{ player.high_score }}</i><br>
                                     <i>Avg: {{ player.avg }}</i><br>
                                     <i>Century: {{ player.century }}</i><br>
                                     <i>Fifty: {{ player.fifty }}</i><br>
@@ -73,7 +75,8 @@
     </div>
     <footer>
         <hr>
-        <p align="center">&circledR; Registered Trademark of Shubham Prakash Jha</p>
+        <p align="center">&circledR; Registered Trademark of Shubham Prakash
+            Jha</p>
     </footer>
 </div>
 </body>
