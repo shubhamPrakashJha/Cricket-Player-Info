@@ -1,3 +1,5 @@
+#!/usr/bin/env python2.7
+
 from flask import Flask
 from flask import render_template, request, redirect, url_for
 from flask import jsonify
@@ -26,14 +28,17 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 # Step 5.2 delclare Client id by refrencing client secrets
-CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
+CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web'][
+    'client_id']
 
 
 # Step 2.2 Create a state token to prevent request forgery.
 # store it in the session for later validation
 @app.route('/login')
 def show_login():
-    state = ''.join(random.choice(string.ascii_uppercase + string.digits) for i in xrange(32))
+    state = ''.join(
+        random.choice(string.ascii_uppercase + string.digits) for x in
+        xrange(32))
     login_session['state'] = state
     # return "The current session state is %s" % login_session['state']
     return render_template('login.html', STATE=state)
@@ -62,7 +67,8 @@ def disconnect():
 # Step 5.3 gconnect route
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
-    '''on server side, create this function to handle the code sent back from the callback method
+    '''on server side, create this function
+    to handle the code sent back from the callback method
     5.3.1. Validate state token
     '''
     if request.args.get('state') != login_session['state']:
@@ -78,7 +84,8 @@ def gconnect():
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
-        response = make_response(json.dumps('Failed to upgrade the authorization code'), 401)
+        response = make_response(
+            json.dumps('Failed to upgrade the authorization code'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -99,13 +106,15 @@ def gconnect():
     gplus_id = credentials.id_token['sub']
     if result['user_id'] != gplus_id:
         response = make_response(
-            json.dumps("Token's user ID doesn't match with given user ID."), 401)
+            json.dumps("Token's user ID doesn't match with given user ID."),
+            401)
         response.headers['Content-Type'] = 'application/json'
         return response
 
     # 6. Verify that the access token is valid for this app.
     if result['issued_to'] != CLIENT_ID:
-        response = make_response(json.dumps("Token Client id did not match app's"), 401)
+        response = make_response(
+            json.dumps("Token Client id did not match app's"), 401)
         print "Token Client id did not match app's"
         response.headers['Content-Type'] = 'application/json'
         return response
@@ -114,7 +123,8 @@ def gconnect():
     stored_access_token = login_session.get('access_token')
     stored_gplus_id = login_session.get('gplus_id')
     if stored_access_token is not None and gplus_id == stored_gplus_id:
-        response = make_response(json.dumps('Current user is already logged in'), 200)
+        response = make_response(
+            json.dumps('Current user is already logged in'), 200)
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -159,7 +169,8 @@ def gconnect():
 
 # Create User
 def createUser(login_session):
-    newUser = User(name=login_session['username'], email=login_session['email'],
+    newUser = User(name=login_session['username'],
+                   email=login_session['email'],
                    picture=login_session['picture'])
     session.add(newUser)
     session.commit()
@@ -200,7 +211,8 @@ def gdisconnect():
     print login_session['username']
 
     # Execute HTTP GET request to REVOKE(officially cancel) current token
-    url = 'http://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']
+    url = 'http://accounts.google.com/o/oauth2/revoke?token=%s' % \
+          login_session['access_token']
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
 
@@ -261,7 +273,8 @@ def new_team():
             # add user_id details in database while creating new Team
             name = request.form['name']
             image_url = request.form['image_url']
-            newTeam = Team(name=name, image_url=image_url, user_id=login_session['user_id'])
+            newTeam = Team(name=name, image_url=image_url,
+                           user_id=login_session['user_id'])
             session.add(newTeam)
             session.commit()
             flash('New Team Added')
@@ -278,8 +291,10 @@ def edit_team(team_id):
     if 'username' not in login_session:
         return redirect('/login')
     if login_session['user_id'] != editedTeam.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to manipulate this Team data." \
-               " Please create your own Team in order to do so.');}</script><body onload='myFunction()''>"
+        return "<script>function myFunction() {" \
+               "alert('You are not authorized to manipulate this Team data." \
+               " Please create your own Team in order to do so.');}" \
+               "</script><body onload='myFunction()''>"
     if request.method == 'POST':
         if request.form['name']:
             editedTeam.name = request.form['name']
@@ -290,7 +305,8 @@ def edit_team(team_id):
         return redirect(url_for('show_teams'))
     else:
         creator = getUserInfo(login_session['user_id'])
-        return render_template('editteam.html', team=editedTeam, team_id=team_id, creator=creator)
+        return render_template('editteam.html', team=editedTeam,
+                               team_id=team_id, creator=creator)
 
 
 @app.route("/team/<int:team_id>/delete/", methods=['GET', 'POST'])
@@ -300,8 +316,10 @@ def delete_team(team_id):
     if 'username' not in login_session:
         return redirect('/login')
     if login_session['user_id'] != deletedTeam.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to manipulate this Team data." \
-               " Please create your own Team in order to do so.');}</script><body onload='myFunction()''>"
+        return "<script>function myFunction() {" \
+               "alert('You are not authorized to manipulate this Team data." \
+               " Please create your own Team in order to do so.');}" \
+               "</script><body onload='myFunction()''>"
     if request.method == 'POST':
         session.delete(deletedTeam)
         session.commit()
@@ -309,7 +327,8 @@ def delete_team(team_id):
         return redirect(url_for('show_teams'))
     else:
         creator = getUserInfo(login_session['user_id'])
-        return render_template('deleteteam.html', team=deletedTeam, creator=creator)
+        return render_template('deleteteam.html', team=deletedTeam,
+                               creator=creator)
 
 
 @app.route("/team/<int:team_id>/")
@@ -320,11 +339,13 @@ def show_players(team_id):
     players = session.query(Player).filter_by(team_id=team.id).all()
     roles_array = [player.role for player in players]
     roles = set(roles_array)
-    creator = getUserInfo(team.user_id)
-    if 'username' not in login_session or login_session['user_id'] != creator.id:
-        return render_template('publicplayers.html', team=team, players=players, roles=roles, creator=creator)
+    owner = getUserInfo(team.user_id)
+    if 'username' not in login_session or login_session['user_id'] != owner.id:
+        return render_template('publicplayers.html', team=team,
+                               players=players, roles=roles, creator=owner)
     else:
-        return render_template('players.html', team=team, players=players, roles=roles, creator=creator)
+        return render_template('players.html', team=team, players=players,
+                               roles=roles, creator=owner)
 
 
 @app.route("/team/<int:team_id>/player/new/", methods=['POST', 'GET'])
@@ -334,11 +355,14 @@ def new_player(team_id):
     if 'username' not in login_session:
         return redirect('/login')
     if login_session['user_id'] != team.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to manipulate this Team data." \
-               " Please create your own Team in order to do so.');}</script><body onload='myFunction()''>"
+        return "<script>function myFunction() {" \
+               "alert('You are not authorized to manipulate this Team data." \
+               " Please create your own Team in order to do so.');}</script>" \
+               "<body onload='myFunction()''>"
     if request.method == 'POST':
         if request.form['name']:
-            # step 9. add player creator user_id details while creating new player in team
+            # step 9. add player creator user_id details
+            # while creating new player in team
             newPlayer = Player(name=request.form['name'],
                                role=request.form['role'],
                                match=request.form['match'],
@@ -362,7 +386,8 @@ def new_player(team_id):
         return render_template('newplayer.html', team=team, creator=creator)
 
 
-@app.route("/team/<int:team_id>/player/<int:player_id>/edit/", methods=['POST', 'GET'])
+@app.route("/team/<int:team_id>/player/<int:player_id>/edit/",
+           methods=['POST', 'GET'])
 def edit_player(team_id, player_id):
     # return "This page will edit player %s of Team %s" % (player_id, team_id)
     team = session.query(Team).filter_by(id=team_id).one()
@@ -370,8 +395,10 @@ def edit_player(team_id, player_id):
     if 'username' not in login_session:
         return redirect('/login')
     if login_session['user_id'] != team.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to manipulate this Team data." \
-               " Please create your own Team in order to do so.');}</script><body onload='myFunction()''>"
+        return "<script>function myFunction() {" \
+               "alert('You are not authorized to manipulate this Team data." \
+               " Please create your own Team in order to do so.');}</script>" \
+               "<body onload='myFunction()''>"
 
     if request.method == 'POST':
         if request.form['name']:
@@ -399,22 +426,27 @@ def edit_player(team_id, player_id):
         session.add(editedPlayer)
         session.commit()
         flash('Player Information Successfully Edited')
-        return redirect(url_for('show_players', team_id=team_id, player_id=player_id))
+        return redirect(
+            url_for('show_players', team_id=team_id, player_id=player_id))
     else:
         creator = getUserInfo(login_session['user_id'])
-        return render_template('editplayer.html', team=team, player=editedPlayer, creator=creator)
+        return render_template('editplayer.html', team=team,
+                               player=editedPlayer, creator=creator)
 
 
-@app.route("/team/<int:team_id>/player/<int:player_id>/delete/", methods=['POST', 'GET'])
+@app.route("/team/<int:team_id>/player/<int:player_id>/delete/",
+           methods=['POST', 'GET'])
 def delete_player(team_id, player_id):
-    # return "This page will delete player %s of Team %s" % (player_id, team_id)
+    # return "This page will delete player %s of Team %s" %(player_id, team_id)
     team = session.query(Team).filter_by(id=team_id).one()
     deletedPlayer = session.query(Player).filter_by(id=player_id).one()
     if 'username' not in login_session:
         return redirect('/login')
     if login_session['user_id'] != team.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to manipulate this Team data. " \
-               "Please create your own Team in order to do so.');}</script><body onload='myFunction()''>"
+        return "<script>function myFunction() {" \
+               "alert('You are not authorized to manipulate this Team data. " \
+               "Please create your own Team in order to do so.');}</script>" \
+               "<body onload='myFunction()''>"
 
     if request.method == 'POST':
         session.delete(deletedPlayer)

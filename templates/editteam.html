@@ -28,14 +28,16 @@
     <div class="teamminipane">
         <form action="{{ url_for('edit_team',team_id=team.id) }}" method="post">
             <label for="name">Name: <br><br>
-                <input type="text" name="name" placeholder="{{ team.name }}" size="30px"></label>
+                <input type="text" name="name" placeholder="{{ team.name }}" size="30px">
+            </label>
             <label for="image_url">Image Url: <br><br>
                 <input type="text" name="image_url" placeholder="{{ team.image_url }}" size="30px">
-            </label><br><br>
+            </label>
+            <br><br>
             <input type="submit" name="Update">
             <a href="{{ url_for('show_teams') }}">Cancel</a>
+        </form>
     </div>
-    </form>
     <footer>
         <hr>
         <p align="center">&circledR; Registered Trademark of Shubham Prakash Jha</p>

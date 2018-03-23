@@ -1,3 +1,5 @@
+#!/usr/bin/env python2.7
+
 # Configuration file
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
@@ -5,6 +7,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
 
 Base = declarative_base()
+
 
 # step 8. create registered user database
 class User(Base):
@@ -14,7 +17,6 @@ class User(Base):
     email = Column(String(250), nullable=False)
     name = Column(String(250))
     picture = Column(String(250))
-
 
 
 # Class
@@ -74,7 +76,7 @@ class Player(Base):
             'fifty': self.fifty,
             'wickets': self.wickets,
             'bbm': self.bbm,
-            'image_url':self.image_url
+            'image_url': self.image_url
         }
 
 
