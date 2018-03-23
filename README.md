@@ -145,6 +145,13 @@ Innitialize the Databse and Run the App as Mentioned above.
     3. A confirmation page will open
     4. click on Delete button
     5. Click on Cancel button to Cancel Deleting which redirects you to Home/Team Page
+- #### See the  same information in JSON format 
+    Type the Url in below format:
+    1. [http://localhost:5000/teams/JSON](http://localhost:5000/teams/JSON)
+    2. http://localhost:5000/team/<int:team_id>/players/JSON
+        - e.x: [http://localhost:5000/team/1/players/JSON](http://localhost:5000//team/1/players/JSON)
+    3. http://localhost:5000/team//team/<int:team_id>/player/<int:player_id>/JSON
+        - e.x: [http://localhost:5000/team/1/player/1/JSON](http://localhost:5000/team/1/player/1/JSON)
 - #### Logout
     click on the Logout button at the same place which replaces the Login button after you logged in.
 
