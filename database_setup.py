@@ -30,6 +30,7 @@ class Team(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
+    player = relationship('Player', cascade='all, delete-orphan')
 
     @property
     def serialize(self):
